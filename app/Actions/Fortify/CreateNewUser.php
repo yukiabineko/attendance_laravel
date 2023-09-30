@@ -40,7 +40,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'start_time' => $input['start_time'],
-            'finsh_time' => $input['finish_time']
+            'finish_time' => $input['finish_time']
         ]);
     }
 }

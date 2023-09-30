@@ -82,7 +82,18 @@ class User extends Authenticatable
     }
      /************************************************************************** */
     /**
-     * 
+     * 該当月のレコード取得
      */
+    public function getAttendances(){
+        $begin_date = date('Y-m-01');
+        $last_date = date('Y-m-t');
+        $attendances 
+          = $this->attendances()
+          ->where('worked_on', '>=', $begin_date)
+          ->where('worked_on', '<=', $last_date)
+          ->get();
+
+        return $attendances;
+    }
   
 }

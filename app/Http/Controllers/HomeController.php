@@ -10,7 +10,11 @@ class HomeController extends Controller
     public function home(){
         $user = \Auth::user();
         $user-> createAttendance();
+        $attendances = $user->getAttendances();
 
-        return view('home');
+        return view('home',[
+            'user' => $user,
+            'attendances' => $attendances
+        ]);
     }
 }

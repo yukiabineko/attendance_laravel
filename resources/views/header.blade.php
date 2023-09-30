@@ -13,7 +13,10 @@
       <div class="menu-list-wrapper">
          <h4 class="text-primary">メニュー</h4>
          @if (Auth::check())
-             
+            <form action="{{ route('logout')}}" method="post" class="d-grid gap-2 w-100">
+              @csrf
+              <button type="submit" class="btn btn-danger">ログアウト</button>
+            </form> 
          @else
            <div class="d-grid gap-2 w-100">
              <a href="{{ route('login')}}" class="btn btn-success">ログイン</a> 

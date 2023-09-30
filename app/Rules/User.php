@@ -13,7 +13,7 @@ class User implements Rule
      *
      * @return void
      */
-    public function __construct(string $start)
+    public function __construct(string $start = null)
     {
         $this->start = $start;
     }
@@ -37,7 +37,7 @@ class User implements Rule
         $finish_min = (int)explode(':', $value)[1];
         $finish_num = $finish_hour * 60 + $finish_min;
 
-        return $finish_num < $start_min;
+        return $finish_num > $start_num;
 
     }
 

@@ -18,5 +18,14 @@ class Attendance extends Model
     public function user(){
         return $this->belongsTo(User::class); 
     }
+/****************5*************************************** */
+    /**
+     * 曜日の取得
+     */
+    public function wk(){
+       $weeks = ["日", "月", "火", "水", "木", "金", "土"];
+       return $weeks[ (int)date('w', strtotime( $this->worked_on ))];
+    }
+/******************************************************** */
 
 }

@@ -19,6 +19,7 @@ class CreateAttendanceTable extends Migration
             $table->dateTime('started_at')->nullable(true);
             $table->dateTime('finished_at')->nullable(true);
             $table->bigInteger('user_id')->unsigned();
+            $table->text('context')->nullable(true);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

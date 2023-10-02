@@ -22,3 +22,4 @@ Route::group(['middleware' =>['auth']], function(){
     Route::get('/home',[HomeController::class, 'home'])->name('home');
     Route::resource('startAttendance', StartAttendanceController::class)->only(['update']);
 });
+x

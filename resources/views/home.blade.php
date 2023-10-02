@@ -11,6 +11,7 @@
 @section('contents')
     <!-- メイン -->
     <main class="home-main">
+      @include('share/flash')
       <section class="text-center h2 fw-bold mt-5">{{ Auth::user()->name }}さんページ</section>
 
       <!-- 会員情報 -->
@@ -68,8 +69,9 @@
 
                 <!-- 出勤(データあるかで分岐) -->
                 @if (!empty($attendance -> started_at) )
-                    <td>{{ date('h', strtotime( $attendance->started_at))}}</td>
-                    <td>{{ date('i', strtotime( $attendance->started_at))}}</td>
+                  <td>{{ date('h', strtotime( $attendance->started_at))}}</td>
+                  <td>{{ date('i', strtotime( $attendance->started_at))}}</td>
+                  <td></td>
                 @else
                    <td></td> 
                    <td></td>
@@ -80,15 +82,25 @@
                           <form action="{{ route('startAttendance.update', $attendance)}}" method="post" class="d-grid gap-2 w-100">
                             @csrf
                             @method('patch')
+                            <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
                             <button type="submit" class="btn btn-primary">出勤</button>
                           </form>
                         </div> 
                       @endif
                    </td>
                 @endif
-                <td></td>
-                <td></td>
-                <td></td>
+                <!-- 退勤（データあるかで分岐 ) -->
+                @if ( !empty($attendance -> started_at ) && !empty($attendance -> finished_at ) )
+                    <td>{{ date('h', strtotime( $attendance->finished_at))}}</td>
+                    <td>{{ date('i', strtotime( $attendance->finished_at))}}</td>
+                    <td></td>
+                @else
+                    <td></td> 
+                    <td></td>
+                    <!-- 出勤してるか、出勤してるが退勤していないか、出勤、退勤共に完了してるかで分岐 -->
+                   
+                @endif
+                
                 <td></td>
                 <td></td>
               </tr>

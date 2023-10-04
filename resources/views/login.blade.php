@@ -15,8 +15,8 @@
        <section class="text-center h2 fw-bold mt-5">ログイン</section>
        <div class="container">
           <div class="row">
-            <div class="{{ $device == "mobile"? "col-12" : "col-m-8 offset-2" }}">
-              <form action="{{ route('login')}}" method="post" class="p-3 shadow mt-3 bg-light">
+            <div class="{{ $device == "mobile"? "col-12" : "col-md-8 offset-2" }}">
+              <form action="{{ route('login')}}" method="post" class="p-4 shadow mt-3 bg-light">
                 @csrf
           
                 <!-- メールアドレス -->

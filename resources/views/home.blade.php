@@ -17,7 +17,7 @@
       <!-- 会員情報 -->
       <div class="container">
         <div class="row">
-          <div class="{{ $device == "mobile"? "col-12" : "col-m-8 offset-2" }}">
+          <div class="{{ $device == "mobile"? "col-12" : "col-md-8 offset-2" }}">
             <!-- 会員情報 -->
             <table class="table table-bordered mt-5">
               <tbody>
@@ -113,7 +113,7 @@
                     </td>
                 @endif
                 
-                <td></td>
+                <td>{{ $attendance-> work_tm() }}</td>
                 <td></td>
               </tr>
           @endforeach
@@ -122,7 +122,7 @@
         <tfoot>
            <tr>
              <td class="bg-light" colspan="3">合計労働時間</td>
-             <td colspan="5"></td>
+             <td colspan="7"></td>
            </tr>
         </tfoot>
       </table>

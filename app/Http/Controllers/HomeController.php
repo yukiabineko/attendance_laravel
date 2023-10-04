@@ -10,11 +10,14 @@ class HomeController extends Controller
     public function home(){
         $user = \Auth::user();
         $user-> createAttendance();
+        //モバイルからかパソコンからか
+        $device = !\Agent::isMobile() ? 'pc' : 'mobile';
         $attendances = $user->getAttendances();
 
         return view('home',[
             'user' => $user,
-            'attendances' => $attendances
+            'attendances' => $attendances,
+            'device' => $device
         ]);
     }
 }

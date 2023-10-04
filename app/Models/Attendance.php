@@ -27,5 +27,11 @@ class Attendance extends Model
        return $weeks[ (int)date('w', strtotime( $this->worked_on ))];
     }
 /******************************************************** */
+  /**
+   * 在社時間の計算
+   */
+   public function work_tm(){
+
+   }
 
 }

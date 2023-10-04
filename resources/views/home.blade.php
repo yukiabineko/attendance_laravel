@@ -17,7 +17,7 @@
       <!-- 会員情報 -->
       <div class="container">
         <div class="row">
-          <div class="col-8 offset-2">
+          <div class="{{ $device == "mobile"? "col-12" : "col-m-8 offset-2" }}">
             <!-- 会員情報 -->
             <table class="table table-bordered mt-5">
               <tbody>
@@ -69,7 +69,7 @@
 
                 <!-- 出勤(データあるかで分岐) -->
                 @if (!empty($attendance -> started_at) )
-                  <td>{{ date('h', strtotime( $attendance->started_at))}}</td>
+                  <td>{{ date('H', strtotime( $attendance->started_at))}}</td>
                   <td>{{ date('i', strtotime( $attendance->started_at))}}</td>
                   <td></td>
                 @else
@@ -91,14 +91,26 @@
                 @endif
                 <!-- 退勤（データあるかで分岐 ) -->
                 @if ( !empty($attendance -> started_at ) && !empty($attendance -> finished_at ) )
-                    <td>{{ date('h', strtotime( $attendance->finished_at))}}</td>
+                    <td>{{ date('H', strtotime( $attendance->finished_at))}}</td>
                     <td>{{ date('i', strtotime( $attendance->finished_at))}}</td>
                     <td></td>
                 @else
                     <td></td> 
                     <td></td>
-                    <!-- 出勤してるか、出勤してるが退勤していないか、出勤、退勤共に完了してるかで分岐 -->
-                   
+                    <!-- 当日で、出勤してるか、出勤してるが退勤していないかで分岐 -->
+                    <td>
+                      @if ( date('Y-m-d') == date('Y-m-d', strtotime( $attendance->worked_on))
+                            && !empty($attendance -> started_at )
+                            && empty($attendance -> finished_at ))
+
+                        <form action="{{ route('finishAttendance.update', $attendance)}}" method="post" class="d-grid gap-2">
+                          @csrf
+                          @method('patch')
+                          <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+                          <button type="submit" class="btn btn-success">退勤</button>
+                        </form>
+                      @endif
+                    </td>
                 @endif
                 
                 <td></td>

@@ -15,7 +15,7 @@
        <section class="text-center h2 fw-bold mt-5">新規会員</section>
        <div class="container">
           <div class="row">
-            <div class="col-md-8 offset-2">
+            <div class="{{ $device == "mobile"? "col-12" : "col-m-8 offset-2" }}">
               <form action="{{ route('register')}}" method="post" class="p-3 shadow mt-3 bg-light">
                 @csrf
                 <!-- 会員名 -->

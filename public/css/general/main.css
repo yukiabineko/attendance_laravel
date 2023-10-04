@@ -96,6 +96,7 @@ footer{
   position: fixed;
   top: 0;
   right: -200%;
+  transition: .2s ease-in;
 }
 .menu-list-wrapper{
   align-items: center;
@@ -111,5 +112,9 @@ footer{
 #menu-check:checked ~ .menu-lists{
   right: 0;
 }
-
+@media screen and (max-width: 767px) {
+  .menu-lists{
+    width: 50vw;
+  }
+}
 

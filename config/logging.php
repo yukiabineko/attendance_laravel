@@ -53,6 +53,7 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        
 
         'single' => [
             'driver' => 'single',
@@ -117,5 +118,8 @@ return [
     'request' => [
         'enable' => env('LOG_REQUEST_ENABLE', false),
     ],
-
+    'sql' => [
+        'enable' => env('LOG_SQL_ENABLE', false),
+        'slow_query_time' => env('LOG_SQL_SLOW_QUERY_TIME', 2000), // ms
+    ],
 ];

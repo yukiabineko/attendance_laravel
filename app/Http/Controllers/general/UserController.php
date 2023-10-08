@@ -14,11 +14,10 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request){
         $this->authorize('update', $user);
-        
-        $user-> createAttendance();
+        $user-> createAttendance( $request->date );
         //モバイルからかパソコンからか
         $device = !\Agent::isMobile() ? 'pc' : 'mobile';
-        $attendances = $user->getAttendances();
+        $attendances = $user->getAttendances( $request->date );
         
 
         return view('home',[

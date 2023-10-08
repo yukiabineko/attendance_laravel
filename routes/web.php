@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\general\FinishAttendanceController;
 use App\Http\Controllers\general\StartAttendanceController;
+use App\Http\Controllers\general\UserController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+      return redirect(route('home'));
+    }
     return view('welcome');
 });
 Route::group(['middleware' =>['auth']], function(){
     Route::get('/home',[HomeController::class, 'home'])->name('home');
     Route::resource('startAttendance', StartAttendanceController::class)->only(['update']);
     Route::resource('finishAttendance', FinishAttendanceController::class)->only(['update']);
+    Route::resource('users', UserController::class)->only(['show']);
 });

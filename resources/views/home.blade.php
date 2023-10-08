@@ -22,12 +22,24 @@
             <table class="table table-bordered mt-5">
               <tbody>
                 <tr>
-                  <td>会員名: {{ $user->name }}</td>
-                  <td>メールアドレス: {{ $user->email }}</td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                      <a 
+                       href="{{ route('users.show',['user' => $user, 
+                       'date' => get_prev( $attendances ) ])}}" 
+                       class="btn btn-primary">←</a>
+                      <div>{{ date('Y年m月d日', strtotime( $attendances[0]->worked_on ) )}}</div>
+                      <a href="#" class="btn btn-primary">→</a>
+                    </div>
+                  </td>
+                  <td colspan="2" class="align-middle">会員名: {{ $user->name }}</td>
+                  <td colspan="2" class="align-middle">メールアドレス: {{ $user->email }}</td>
                 </tr>
                 <tr>
-                  <td class="w-50">出勤時間: {{ $user->start_time }}</td>
+                  <td>出勤時間: {{ $user->start_time }}</td>
                   <td>退勤時間: {{ $user->finish_time }}</td>
+                  <td>初日: {{ first_date( $attendances )}} </td>
+                  <td>末日: {{ end_date( $attendances )}}</td>
                 </tr>
               </tbody>
             </table>
@@ -122,7 +134,7 @@
         <tfoot>
            <tr>
              <td class="bg-light" colspan="3">合計労働時間</td>
-             <td colspan="7"></td>
+             <td colspan="7" class="text-center">{{ total( $attendances )}}時間</td>
            </tr>
         </tfoot>
       </table>

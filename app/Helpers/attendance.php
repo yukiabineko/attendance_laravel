@@ -40,3 +40,12 @@ if (! function_exists('get_prev')) {
     return date('Y-m-d',strtotime('-1 month'.date('Y-m-d',strtotime($attendances[0]->worked_on))) );
   }
 }
+if (! function_exists('get_next')) {
+  /**
+   * 特定の全月の初日取得
+   */
+  function get_next(object $attendances): string
+  {
+    return date('Y-m-d',strtotime('+1 month'.date('Y-m-d',strtotime($attendances[0]->worked_on))) );
+  }
+}

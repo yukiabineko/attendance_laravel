@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\general\AttendanceController;
 use App\Http\Controllers\general\FinishAttendanceController;
 use App\Http\Controllers\general\StartAttendanceController;
 use App\Http\Controllers\general\UserController;
@@ -29,4 +30,6 @@ Route::group(['middleware' =>['auth']], function(){
     Route::resource('startAttendance', StartAttendanceController::class)->only(['update']);
     Route::resource('finishAttendance', FinishAttendanceController::class)->only(['update']);
     Route::resource('users', UserController::class)->only(['show']);
+    //ユーザー個別の勤怠編集ページ
+    Route::get('/attendance/{user}/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
 });

@@ -15,7 +15,7 @@
       <section class="text-center h2 fw-bold mt-5">{{ Auth::user()->name }}さんページ</section>
 
       <!-- 会員情報 -->
-      <div class="container">
+      <div class="container mb-5">
         <div class="row">
           <div class="{{ $device == "mobile"? "col-12" : "col-md-8 offset-2" }}">
             <!-- 会員情報 -->
@@ -24,12 +24,20 @@
                 <tr>
                   <td>
                     <div class="d-flex justify-content-between align-items-center w-100">
+                      <!--前の月へ移動 -->
                       <a 
                        href="{{ route('users.show',['user' => $user, 
                        'date' => get_prev( $attendances ) ])}}" 
                        class="btn btn-primary">←</a>
+
+                      <!-- 現在月情報 -->
                       <div>{{ date('Y年m月d日', strtotime( $attendances[0]->worked_on ) )}}</div>
-                      <a href="#" class="btn btn-primary">→</a>
+
+                      <!--前の月へ移動 -->
+                       <a 
+                       href="{{ route('users.show',['user' => $user, 
+                       'date' => get_next( $attendances ) ])}}" 
+                       class="btn btn-primary">→</a>
                     </div>
                   </td>
                   <td colspan="2" class="align-middle">会員名: {{ $user->name }}</td>
@@ -47,8 +55,16 @@
         </div>
       </div>
 
+      <!-- 勤怠編集ボタン -->
+      <div class="action-btns">
+        <a 
+          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+          class="btn btn-success btn-lg">勤怠編集</a>
+      </div>
+      
+
       <!-- 勤怠表 -->
-      <table class="table table-bordered m-auto mt-5 attendance-table">
+      <table class="table table-bordered m-auto  attendance-table">
         <thead class="bg-light text-center align-middle">
           <!-- ヘッダー1 -->
           <tr>

@@ -47,4 +47,18 @@ class Attendance extends Model
         return  null;
    }
 /******************************************************** */
+  /**
+   * 出勤時間入力フォーム自動配置するための加工
+   */
+  public function start_tm() :string{
+     return !empty( $this->started_at)? date('m:i', strtotime( $this->started_at )) : "";
+  }
+/********************************************************* */
+  /**
+   * 退勤時間入力フォーム自動配置するための加工
+   */
+  public function finish_tm(){
+    return !empty( $this->finished_at)? date('H:i', strtotime( $this->finished_at )) : "";
+  }
+
 }

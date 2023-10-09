@@ -63,13 +63,14 @@
                     <td>
                       <textarea name="context[]" class="form-control">{{ old('contex', $attendance->context )}}</textarea>
                     </td>
-    
-                    
-                    
-                   
                   </tr>
               @endforeach
         </table>
+        <!-- ボタン -->
+        <div class="d-flex aligns-items-center justify-content-center mt-5 gap-2">
+           <a href="#" class="btn btn-default btn-lg border">戻る</a>
+           <button type="submit" class="btn btn-success btn-lg">編集する</button>
+        </div>
       </form>
     </main>
 

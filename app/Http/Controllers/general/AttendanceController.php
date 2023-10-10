@@ -20,4 +20,9 @@ class AttendanceController extends Controller
         'device' => $device
     ]);
   }
+  /*************編集処理********************************************** */
+  public function update(Request $request){
+    
+  }
+
 }

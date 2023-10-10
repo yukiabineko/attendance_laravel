@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ asset('css/general/users/show.css')}}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/attendances/edit.js')}}"></script>
+@endsection
+
 @section('contents')
     <!-- メイン -->
     <main class="home-main">
@@ -48,16 +52,30 @@
 
                     <!--出勤時間フォーム -->
                     <td class="align-middle">
-                      <input type="time" name="started_at[]" value="{{ old('started_at', $attendance->start_tm() )}}" class="form-control">
+                      <input 
+                        type="time" 
+                        name="started_at[]" 
+                        value="{{ old('started_at', 
+                        $attendance->start_tm() )}}" 
+                        class="form-control start-form"
+                        id="start-{{ $attendance->id }}"
+                      >
                     </td>
 
                     <!--退勤時間フォーム -->
                     <td class="align-middle">
-                      <input type="time" name="finished_at[]" value="{{ old('finished_at', $attendance->finish_tm() )}}" class="form-control">
+                      <input 
+                       type="time" 
+                       name="finished_at[]" 
+                       value="{{ old('finished_at', 
+                       $attendance->finish_tm() )}}" 
+                       class="form-control end-form"
+                       id="end-{{ $attendance->id }}"
+                       >
                     </td>
 
                     <!-- 在社時間 -->
-                    <td>{{ $attendance-> work_tm() }}</td>
+                    <td class="align-middle totals" id="total-{{ $attendance->id }}">{{ $attendance-> work_tm() }}</td>
 
                     <!-- 備考欄 -->
                     <td>

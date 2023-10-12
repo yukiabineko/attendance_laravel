@@ -13,6 +13,7 @@ class Attendance extends Model
         'worked_on',
         'started_at',
         'finished_at',
+        'context',
         'user_id'
     ];
     public function user(){
@@ -51,7 +52,7 @@ class Attendance extends Model
    * 出勤時間入力フォーム自動配置するための加工
    */
   public function start_tm() :string{
-     return !empty( $this->started_at)? date('m:i', strtotime( $this->started_at )) : "";
+     return !empty( $this->started_at)? date('H:i', strtotime( $this->started_at )) : "";
   }
 /********************************************************* */
   /**

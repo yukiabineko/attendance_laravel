@@ -26,8 +26,11 @@
       
 
       <!-- 勤怠表編集フォーム -->
-      <form action="#" method="post">
+      <form 
+        action="{{ route('attendances.update', [ 'user' => $user, 'date' => $attendances[0]->worked_on ])}}"
+        method="post">
         @csrf
+        @method('patch')
           <table class="table table-bordered m-auto  attendance-table">
             <thead class="bg-light text-center align-middle">
               <!-- ヘッダー1 -->
@@ -81,6 +84,13 @@
                     <td>
                       <textarea name="context[]" class="form-control">{{ old('contex', $attendance->context )}}</textarea>
                     </td>
+                    <!-- 勤怠のid -->
+                    <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}">
+                    <!-- 勤怠日 -->
+                    <input type="hidden" name="worked_on[]" value="{{ $attendance->worked_on }}">
+                    <!-- 月パラメーター -->
+                    <input type="hidden" name="date" value="{{ $date }}">
+
                   </tr>
               @endforeach
         </table>

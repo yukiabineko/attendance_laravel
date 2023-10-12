@@ -32,4 +32,5 @@ Route::group(['middleware' =>['auth']], function(){
     Route::resource('users', UserController::class)->only(['show']);
     //ユーザー個別の勤怠編集ページ
     Route::get('/attendance/{user}/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
+    Route::patch('/attendance/{user}/update',[ AttendanceController::class, 'update'])->name('attendances.update');
 });

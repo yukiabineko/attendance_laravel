@@ -62,4 +62,13 @@ class Attendance extends Model
     return !empty( $this->finished_at)? date('H:i', strtotime( $this->finished_at )) : "";
   }
 
+/******************************************************** */
+  /**
+   * ターゲットの日付けが現在の日から未来かどうか？
+   */
+  public function future_check() :bool{
+    $now = date('Y-m-d');
+    $target = date('Y-m-d', strtotime( $this->worked_on ));
+    return $now >= $target? true : false;
+  }
 }

@@ -62,6 +62,7 @@
                         $attendance->start_tm() )}}" 
                         class="form-control start-form"
                         id="start-{{ $attendance->id }}"
+                          {{ $attendance->future_check() == false? "readonly" : ""}}
                       >
                     </td>
 
@@ -74,6 +75,7 @@
                        $attendance->finish_tm() )}}" 
                        class="form-control end-form"
                        id="end-{{ $attendance->id }}"
+                       {{ $attendance->future_check() == false? "readonly" : ""}}
                        >
                     </td>
 
@@ -82,7 +84,11 @@
 
                     <!-- 備考欄 -->
                     <td>
-                      <textarea name="context[]" class="form-control">{{ old('contex', $attendance->context )}}</textarea>
+                      <textarea 
+                        name="context[]" 
+                        class="form-control" {{ old('contex', $attendance->context )}}
+                        {{ $attendance->future_check() == false? "readonly" : ""}}
+                      ></textarea>
                     </td>
                     <!-- 勤怠のid -->
                     <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}">

@@ -16,6 +16,7 @@
     <!-- メイン -->
     <main class="home-main">
       @include('share/flash')
+      @include('share/errors')
       <section class="text-center h2 fw-bold mt-5">勤怠編集ページ</section>
 
       
@@ -58,8 +59,7 @@
                       <input 
                         type="time" 
                         name="started_at[]" 
-                        value="{{ old('started_at', 
-                        $attendance->start_tm() )}}" 
+                        value="{{ $attendance->start_tm()}}" 
                         class="form-control start-form"
                         id="start-{{ $attendance->id }}"
                           {{ $attendance->future_check() == false? "readonly" : ""}}
@@ -71,8 +71,7 @@
                       <input 
                        type="time" 
                        name="finished_at[]" 
-                       value="{{ old('finished_at', 
-                       $attendance->finish_tm() )}}" 
+                       value="{{ $attendance->finish_tm()}}" 
                        class="form-control end-form"
                        id="end-{{ $attendance->id }}"
                        {{ $attendance->future_check() == false? "readonly" : ""}}
@@ -102,7 +101,11 @@
         </table>
         <!-- ボタン -->
         <div class="d-flex aligns-items-center justify-content-center mt-5 gap-2">
-           <a href="#" class="btn btn-default btn-lg border">戻る</a>
+           <a href="{{ route('users.show',[
+              'user' => Auth::user(),
+              'date' => Request::get('date')
+            ]) }}" 
+            class="btn btn-default btn-lg border">戻る</a>
            <button type="submit" class="btn btn-success btn-lg">編集する</button>
         </div>
       </form>

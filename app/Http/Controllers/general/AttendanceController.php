@@ -5,7 +5,11 @@ namespace App\Http\Controllers\general;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Rules\attendance_not_finish;
+use App\Rules\attendance_not_start;
+use App\Rules\Attendance_time;
 use Illuminate\Http\Request;
+use Validator;
 
 class AttendanceController extends Controller
 {
@@ -24,6 +28,20 @@ class AttendanceController extends Controller
   }
   /*************編集処理********************************************** */
   public function update(Request $request){
+
+    $validator = Validator::make($request->all(), [
+      'started_at' => [ new attendance_not_finish( $request)],
+      'finished_at' => [ 
+        new Attendance_time($request),
+        new attendance_not_start( $request )
+      ],
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+        ->withInput()
+        ->withErrors($validator);
+    }
     
     foreach( $request->attendance_id as $i => $id ){
       if( !empty( $request->started_at[$i]) 

@@ -12,13 +12,27 @@
     <div class="menu-lists">
       <div class="menu-list-wrapper">
          <h4 class="text-primary">メニュー</h4>
+  <!------- ログイン時のレイアウト ------------------------------------>
          @if (Auth::check())
             <!-- ログイン時のメニュー -->
-            
+            <div class="authentication">
+               <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
+               <div class="auth-status">出勤前</div>
+               <ul class="authenticationーmenu">
+                  <li>
+                    <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
+                  </li>
+
+                  <li>
+                    <a href="#">会員情報編集</a>
+                  </li>
+              </ul>
+            </div>
             <form action="{{ route('logout')}}" method="post" class="d-grid gap-2 w-100">
               @csrf
               <button type="submit" class="btn btn-danger">ログアウト</button>
             </form> 
+  <!------- 未ログイン時のレイアウト ------------------------------------>
          @else
            <div class="d-grid gap-2 w-100">
              <a href="{{ route('login')}}" class="btn btn-success">ログイン</a> 

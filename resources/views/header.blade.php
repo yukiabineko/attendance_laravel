@@ -8,6 +8,9 @@
        <span></span>
     </label>
 
+    <!-- メニュー開いたときのバックグラウンド -->
+    <div id="background" onclick="closeBackground()"></div>
+
     <!-- メニューリスト -->
     <div class="menu-lists">
       <div class="menu-list-wrapper">
@@ -18,13 +21,13 @@
             <div class="authentication">
                <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
                <div class="auth-status">出勤前</div>
-               <ul class="authenticationーmenu">
+               <ul class="authentication-menu">
                   <li>
                     <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
                   </li>
 
                   <li>
-                    <a href="#">会員情報編集</a>
+                    <a href="{{ route('users.edit', Auth::user())}}">会員情報編集</a>
                   </li>
               </ul>
             </div>

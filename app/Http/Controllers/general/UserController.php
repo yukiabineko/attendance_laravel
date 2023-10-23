@@ -26,4 +26,17 @@ class UserController extends Controller
             'device' => $device
         ]);
     }
+    /************************************ */
+    /**
+     * ユーザー編集ページ表示
+     */
+    public function edit(User $user){
+        $this->authorize('update', $user);
+         //モバイルからかパソコンからか
+         $device = !\Agent::isMobile() ? 'pc' : 'mobile';
+        return view('general.users.edit',[
+            'user' => $user,
+            'device' => $device
+        ]);
+    }
 }

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
   @yield('css')
   <script src="{{ asset('js/jquery.min.js')}}"></script>
+  <script src="{{ asset('js/main.js')}}"></script>
   @yield('js')
 </head>
 

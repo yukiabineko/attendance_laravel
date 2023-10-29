@@ -4,12 +4,15 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Rules\User as RulesUser;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    use PasswordValidationRules;
     /**
      * Validate and update the given user's profile information.
      *
@@ -17,6 +20,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input): void
     {
+        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
 
@@ -25,8 +29,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($user->id),
+                Rule::unique('users')->ignore($user->id)
             ],
+            'start_time' => ['required'],
+            'finish_time' => ['required', new RulesUser($input['start_time'])],
         ])->validateWithBag('updateProfileInformation');
 
         if ($input['email'] !== $user->email &&
@@ -36,6 +42,9 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+                'start_time' => $input['start_time'],
+                'finish_time' => $input['finish_time']
             ])->save();
         }
     }

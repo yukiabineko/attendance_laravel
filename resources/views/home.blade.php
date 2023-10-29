@@ -48,6 +48,7 @@
                   <td>退勤時間: {{ $user->finish_time }}</td>
                   <td>初日: {{ first_date( $attendances )}} </td>
                   <td>末日: {{ end_date( $attendances )}}</td>
+                  <td>勤怠日数:{{ attendance_days( $attendances )}} </td>
                 </tr>
               </tbody>
             </table>

@@ -8,6 +8,9 @@
        <span></span>
     </label>
 
+    <!-- メニュー開いたときのバックグラウンド -->
+    <div id="background" onclick="closeBackground()"></div>
+
     <!-- メニューリスト -->
     <div class="menu-lists">
       <div class="menu-list-wrapper">
@@ -15,25 +18,34 @@
   <!------- ログイン時のレイアウト ------------------------------------>
          @if (Auth::check())
             <!-- ログイン時のメニュー -->
-            <div class="authentication">
-               <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
-               <div class="auth-status">出勤前</div>
-               <ul class="authenticationーmenu">
-                  <li>
-                    <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
-                  </li>
+            <!-- 管理者の場合 -->
+            @if ( Auth::user()->admin == 1 )
+                
+            <!-- 通常ユーザーの場合 -->
+            @else
+              <div class="authentication">
+                  <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
+                  <div class="auth-status {{ working_status()['css']}}">{{ working_status()['status']}}</div>
+                  <ul class="authentication-menu">
+                    <li>
+                      <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
+                    </li>
 
-                  <li>
-                    <a href="#">会員情報編集</a>
-                  </li>
-              </ul>
-            </div>
+                    <li>
+                      <a href="{{ route('users.edit', Auth::user())}}">会員情報編集</a>
+                    </li>
+                  </ul>
+              </div>
+            @endif
+            
             <form action="{{ route('logout')}}" method="post" class="d-grid gap-2 w-100">
               @csrf
               <button type="submit" class="btn btn-danger">ログアウト</button>
             </form> 
   <!------- 未ログイン時のレイアウト ------------------------------------>
          @else
+           <!-- 未認証時のエレメント -->
+           <div class="unauthenticated">ログインしてください。</div>
            <div class="d-grid gap-2 w-100">
              <a href="{{ route('login')}}" class="btn btn-success">ログイン</a> 
            </div>

@@ -24,9 +24,9 @@
             <!-- 通常ユーザーの場合 -->
             @else
               <div class="authentication">
-                  <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
-                  <div class="auth-status {{ working_status()['css']}}">{{ working_status()['status']}}</div>
-                  <ul class="authentication-menu">
+                <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
+                <div class="auth-status {{ working_status()['css']}}">{{ working_status()['status']}}</div>
+                <ul class="authentication-menu">
                     <li>
                       <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
                     </li>
@@ -34,10 +34,9 @@
                     <li>
                       <a href="{{ route('users.edit', Auth::user())}}">会員情報編集</a>
                     </li>
-                  </ul>
+                </ul>
               </div>
             @endif
-            
             <form action="{{ route('logout')}}" method="post" class="d-grid gap-2 w-100">
               @csrf
               <button type="submit" class="btn btn-danger">ログアウト</button>

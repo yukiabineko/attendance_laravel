@@ -1,5 +1,6 @@
 <form 
   action="{{ $edit? route('users.update', $user) : route('register')}}" 
+  action="{{ $edit? route('user-profile-information.update') : route('register')}}" 
   method="post" class="p-5  shadow mt-3 bg-light"
 >
     @csrf

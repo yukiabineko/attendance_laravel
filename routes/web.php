@@ -34,5 +34,5 @@ Route::group(['middleware' =>['auth']], function(){
     Route::get('/attendance/{user}/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
     Route::patch('/attendance/{user}/update',[ AttendanceController::class, 'update'])->name('attendances.update');
     //ユーザープロフィール変更画面
-    Route::resource('users', UserController::class)->only(['edit','update']);
+    Route::resource('users', UserController::class)->only(['edit','update', 'index']);
 });

@@ -1,6 +1,12 @@
 <header class="header">
   <!--アイコン -->
   <div class="app-name">勤怠管理システム</div>
+
+  <!-- 管理者ログイン時の場合の表示 -->
+  @if ( Auth::check() && Auth::user()->admin == 1 )
+     <div class="text-warning font-weight-bold">管理者ログイン</div>
+  @endif
+
   <!-- ハンバーガーメニュー -->
   <div class="menu">
     <input type="checkbox"  id="menu-check">
@@ -18,25 +24,42 @@
   <!------- ログイン時のレイアウト ------------------------------------>
          @if (Auth::check())
             <!-- ログイン時のメニュー -->
-            <!-- 管理者の場合 -->
-            @if ( Auth::user()->admin == 1 )
-                
-            <!-- 通常ユーザーの場合 -->
-            @else
               <div class="authentication">
-                <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
-                <div class="auth-status {{ working_status()['css']}}">{{ working_status()['status']}}</div>
-                <ul class="authentication-menu">
-                    <li>
-                      <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
-                    </li>
+                <!-- 管理者のログイン -->
+                @if ( Auth::user()->admin == 1)
+                   <div class="auth-user-name">管理者メニュー</div>
+                    <ul class="authentication-menu">
+                        <!-- 社員リスト -->
+                        <li>
+                          <a href="#">会員一覧</a>
+                        </li>
 
-                    <li>
-                      <a href="{{ route('users.edit', Auth::user())}}">会員情報編集</a>
-                    </li>
-                </ul>
+                        <!-- 当日出勤中のリスト -->
+                        <li>
+                          <a href="#">出勤中リスト</a>
+                        </li>
+
+                         <!-- 退勤者リスト -->
+                        <li>
+                          <a href="#">本日退勤者</a>
+                        </li>
+                    </ul>
+
+                <!-- 一般ユーザーのログイン -->
+                @else
+                   <div class="auth-user-name">{{ Auth::user()->name}}さん</div>
+                   <div class="auth-status {{ working_status()['css']}}">{{ working_status()['status']}}</div>
+                    <ul class="authentication-menu">
+                        <li>
+                          <a href="{{ route('users.show', Auth::user())}}">会員勤怠</a>
+                        </li>
+
+                        <li>
+                          <a href="{{ route('users.edit', Auth::user())}}">会員情報編集</a>
+                        </li>
+                    </ul>
+                @endif
               </div>
-            @endif
             <form action="{{ route('logout')}}" method="post" class="d-grid gap-2 w-100">
               @csrf
               <button type="submit" class="btn btn-danger">ログアウト</button>

@@ -81,4 +81,10 @@ class UserController extends Controller
           return redirect( route('users.show', \Auth::user()))->with('flash', '編集しました。');;
 
     }
+    /**
+     * 管理者のみ従業員一覧
+     */
+    public function index(){
+        return view('general.users.index');
+    }
 }

@@ -15,9 +15,14 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function admin(User $user, User $model)
     {
-        //
+        if( $model->admin == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if( $user->id == $model->id ){
+        if( $user->id == $model->id || $user->admin == 1 ){
             return true;
         }
         else{
@@ -69,7 +74,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        
     }
 
     /**

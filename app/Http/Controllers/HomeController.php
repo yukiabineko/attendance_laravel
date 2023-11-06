@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home(){
-      return redirect( route('users.show', \Auth::user()));
+      $user = \Auth::user();
+      return $user->admin == 0 ? redirect( route('users.show', $user)) : redirect(route('admin.home'));
     }
 }

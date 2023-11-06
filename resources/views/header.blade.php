@@ -31,7 +31,7 @@
                     <ul class="authentication-menu">
                         <!-- 社員リスト -->
                         <li>
-                          <a href="#">会員一覧</a>
+                          <a href="{{ route('users.index')}}">会員一覧</a>
                         </li>
 
                         <!-- 当日出勤中のリスト -->

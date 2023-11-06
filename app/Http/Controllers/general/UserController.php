@@ -85,6 +85,23 @@ class UserController extends Controller
      * 管理者のみ従業員一覧
      */
     public function index(){
-        return view('general.users.index');
+        $this->authorize('admin',\Auth::user() );
+
+        //モバイルからかパソコンからか
+        $device = !\Agent::isMobile() ? 'pc' : 'mobile';
+        //管理者を除く従業員一覧の表示
+        $users = User::where('admin', 0)->orderBy('id', 'asc')->get();
+       
+
+        return view('general.users.index',[
+            'device' => $device,
+            'users' => $users
+        ]);
+    }
+    /**
+     * 削除
+     */
+    public function destroy(User $user){
+        dd($user);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\HomeController as AdminHomeController;
 use App\Http\Controllers\general\AttendanceController;
 use App\Http\Controllers\general\FinishAttendanceController;
 use App\Http\Controllers\general\StartAttendanceController;
@@ -34,5 +35,8 @@ Route::group(['middleware' =>['auth']], function(){
     Route::get('/attendance/{user}/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
     Route::patch('/attendance/{user}/update',[ AttendanceController::class, 'update'])->name('attendances.update');
     //ユーザープロフィール変更画面
-    Route::resource('users', UserController::class)->only(['edit','update', 'index']);
+    Route::resource('users', UserController::class)->only(['edit','update', 'index','destroy']);
+
+    //管理者ホーム画面
+    Route::get('/admin/home',[AdminHomeController::class, 'home'])->name('admin.home');
 });

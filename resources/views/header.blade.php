@@ -29,6 +29,11 @@
                 @if ( Auth::user()->admin == 1)
                    <div class="auth-user-name">管理者メニュー</div>
                     <ul class="authentication-menu">
+                        <!-- メニュー一覧-->
+                        <li>
+                          <a href="{{ route('admin.home')}}">管理者トップ</a>
+                        </li>
+
                         <!-- 社員リスト -->
                         <li>
                           <a href="{{ route('users.index')}}">会員一覧</a>

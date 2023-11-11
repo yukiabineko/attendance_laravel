@@ -44,6 +44,7 @@ class UserController extends Controller
             'device' => $device
         ]);
     }
+    
     /******************************************************* */
     /**
      * ユーザー編集処理
@@ -78,30 +79,11 @@ class UserController extends Controller
             'start_time' => $request->start_time,
             'finish_time' => $request->finish_time
           ]);
-          return redirect( route('users.show', \Auth::user()))->with('flash', '編集しました。');;
+          return \Auth::user()->admin == 0? 
+          redirect( route('users.show', \Auth::user()))->with('flash', '編集しました。') :
+          redirect(route('users.index'))->with('flash', $user->name.'さんの編集しました。');
 
     }
-    /**
-     * 管理者のみ従業員一覧
-     */
-    public function index(){
-        $this->authorize('admin',\Auth::user() );
-
-        //モバイルからかパソコンからか
-        $device = !\Agent::isMobile() ? 'pc' : 'mobile';
-        //管理者を除く従業員一覧の表示
-        $users = User::where('admin', 0)->orderBy('id', 'asc')->get();
-       
-
-        return view('general.users.index',[
-            'device' => $device,
-            'users' => $users
-        ]);
-    }
-    /**
-     * 削除
-     */
-    public function destroy(User $user){
-        dd($user);
-    }
+    
+    
 }

@@ -1,8 +1,15 @@
-<form 
-  action="{{ $edit? route('users.update', $user) : route('register')}}" 
-  action="{{ $edit? route('user-profile-information.update') : route('register')}}" 
-  method="post" class="p-5  shadow mt-3 bg-light"
->
+ @if ( Auth::check() && Auth::user()->admin == 1)
+  <form 
+      action="{{ $edit? route('users.update', $user) : route('users.store')}}" 
+      method="post" class="p-5  shadow mt-3 bg-light"
+    >
+ @else
+  <form 
+    action="{{ $edit? route('users.update', $user) : route('register')}}" 
+    method="post" class="p-5  shadow mt-3 bg-light"
+    >
+ @endif
+ 
     @csrf
     @if ( $edit )
        @method('patch') 
@@ -67,9 +74,14 @@
        <button type="submit" class="btn {{ $edit? 'btn-success' : 'btn-primary'}}">
         {{ $edit? '編集する' : '会員登録する' }}
       </button>
-      @if ( !$edit )
-        <a href="{{ route('login')}}" class="mt-2 fw-bold">ログインページへ</a>
+      @if (Auth::check() && Auth::user()->admin == 1 )
+          <a href="{{ route('admin.home')}}" class="mt-2 fw-bold">トップページへ</a>
+      @else
+        @if ( !$edit )
+          <a href="{{ route('login')}}" class="mt-2 fw-bold">ログインページへ</a>
+        @endif
       @endif
+    
       
     </div>
   </form>

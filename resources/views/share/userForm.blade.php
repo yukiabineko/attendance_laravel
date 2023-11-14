@@ -38,26 +38,30 @@
 
 
     <!--　出勤時間 -->
-    <div class="form-group pt-3">
-      <div class="form-title">出勤時間 <span class="form-info text-danger">(*必須です)</span></div>
-      <input 
-       type="time" 
-       name="start_time" 
-       class="form-control" 
-       value="{{ $edit? old('start_time', $user->start_time ) : old('start_time')}}" >
-    </div>
-
-    <!--　退勤時間 -->
-    <div class="form-group pt-3">
-      <div class="form-title">退勤時間 <span class="form-info text-danger">(*必須です)</span></div>
-      <input 
+    @if ( Auth::check() && Auth::user()->admin == 1)
+      <div class="form-group pt-3">
+        <div class="form-title">出勤時間</div>
+        <input 
         type="time" 
-        name="finish_time" 
+        name="start_time" 
         class="form-control" 
-        value="{{ $edit? old('finish_time', $user->finish_time ) : old('finish_time') }}" >
-    </div>
+        value="{{ $edit? old('start_time', $user->start_time ) : old('start_time')}}" >
+      </div>
 
-
+      <!--　退勤時間 -->
+      <div class="form-group pt-3">
+        <div class="form-title">退勤時間 </div>
+        <input 
+          type="time" 
+          name="finish_time" 
+          class="form-control" 
+          value="{{ $edit? old('finish_time', $user->finish_time ) : old('finish_time') }}" >
+      </div>
+    @else
+       <input type="hidden" name="start_time" value="">
+       <input type="hidden" name="finish_time" value="">
+    @endif
+    
     <!-- パスワード -->
     <div class="form-group pt-3">
       <div class="form-title">パスワード <span class="form-info text-danger">(*必須です)</span></div>

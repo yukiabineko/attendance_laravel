@@ -10,6 +10,7 @@
 
 @section('contents')
     <main class="auth-main">
+       @include('share/flash')
        @include('share/errors')
        
        <section class="text-center h2 fw-bold mt-5 mb-5">従業員一覧</section>
@@ -39,6 +40,7 @@
                            <td>{{ date('H:i', strtotime( $user->finish_time  ))}}</td>
                            <td>
                               <div class="d-flex gap-2 justifi-content-between align-items-center">
+                                 <a href="{{ route('userTime.edit', $user)}}" class="btn btn-success w-25">勤務時間</a>
                                  <a href="{{ route('users.edit', $user)}}" class="btn btn-success w-25">編集</a>
                                  <form action="{{ route('users.destroy', $user)}}" class="w-25" method="POST">
                                     @csrf

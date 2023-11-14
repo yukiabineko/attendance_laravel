@@ -28,17 +28,21 @@ class User implements Rule
     public function passes($attribute, $value)
     {
         //出勤時間が退勤時間より後にならないようにするルール
-
-        $start_hour = (int)explode(':', $this->start)[0];
-        $start_min = (int)explode(':', $this->start)[1];
-        $start_num = $start_hour * 60 + $start_min;
-
-        $finish_hour = (int)explode(':', $value)[0];
-        $finish_min = (int)explode(':', $value)[1];
-        $finish_num = $finish_hour * 60 + $finish_min;
-
-        return $finish_num > $start_num;
-
+        if( !empty( $this->start) && !empty( $value)){
+            $start_hour = (int)explode(':', $this->start)[0];
+            $start_min = (int)explode(':', $this->start)[1];
+            $start_num = $start_hour * 60 + $start_min;
+    
+            $finish_hour = (int)explode(':', $value)[0];
+            $finish_min = (int)explode(':', $value)[1];
+            $finish_num = $finish_hour * 60 + $finish_min;
+    
+            return $finish_num > $start_num;
+        
+        }
+        else{
+            return true;
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('general.app')
 
 @section('title')
-   {{ Auth::user()->name}}さんページ
+   {{ $user->name }}さんページ
 @endsection
 
 @section('css')
@@ -12,7 +12,7 @@
     <!-- メイン -->
     <main class="home-main">
       @include('share/flash')
-      <section class="text-center h2 fw-bold mt-5">{{ Auth::user()->name }}さんページ</section>
+      <section class="text-center h2 fw-bold mt-5">{{ $user->name }}さんページ</section>
 
       <!-- 会員情報 -->
       <div class="container mb-5">
@@ -106,7 +106,7 @@
                    <td></td>
                    <td>
                       <!-- 今日の日付けの場合出勤ボタンを表示 -->
-                      @if ( date('Y-m-d') == date('Y-m-d', strtotime( $attendance->worked_on)))
+                      @if ( date('Y-m-d') == date('Y-m-d', strtotime( $attendance->worked_on)) && Auth::id() == $user->id )
                         <div class="w-100">
                           <form action="{{ route('startAttendance.update', $attendance)}}" method="post" class="d-grid gap-2 w-100">
                             @csrf
@@ -128,7 +128,7 @@
                     <td></td>
                     <!-- 当日で、出勤してるか、出勤してるが退勤していないかで分岐 -->
                     <td>
-                      @if ( date('Y-m-d') == date('Y-m-d', strtotime( $attendance->worked_on))
+                      @if ( date('Y-m-d') == date('Y-m-d', strtotime( $attendance->worked_on) && Auth::id() == $user->id)
                             && !empty($attendance -> started_at )
                             && empty($attendance -> finished_at ))
 

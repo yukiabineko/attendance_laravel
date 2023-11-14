@@ -64,6 +64,7 @@ class UserPolicy
             return false;
         }
     }
+    
 
     /**
      * Determine whether the user can delete the model.

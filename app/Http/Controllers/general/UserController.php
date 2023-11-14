@@ -19,6 +19,14 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request){
         $this->authorize('update', $user);
+        $auth_user = \Auth::user();
+
+        if( $auth_user->admin == 1 && $user->id == $auth_user->id){
+            return redirect( route('admin.home'));
+        }
+
+
+
         $user-> createAttendance( $request->date );
         //モバイルからかパソコンからか
         $device = !\Agent::isMobile() ? 'pc' : 'mobile';
@@ -62,8 +70,8 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($user->id)
             ],
             'password' => ['required', 'string', new Password, 'confirmed'],
-            'start_time' => ['required'],
-            'finish_time' => ['required', new RulesUser($request->start_time )],
+            /*'start_time' => ['required'],*/
+            'finish_time' => [new RulesUser($request->start_time )],
         ]);
         
         //バリデーションエラーの場合入力画面に戻る

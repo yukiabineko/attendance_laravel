@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\HomeController as AdminHomeController;
+use App\Http\Controllers\admin\UserAttendanceTimeController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\general\AttendanceController;
 use App\Http\Controllers\general\FinishAttendanceController;
@@ -39,7 +40,9 @@ Route::group(['middleware' =>['auth']], function(){
     Route::resource('users', UserController::class)->only(['edit','update', 'show']);
     //管理者版ユーザー管理
     Route::resource('/admin/users',AdminUserController::class)->only(['destroy','index', 'store', 'create']);
-
     //管理者ホーム画面
     Route::get('/admin/home',[AdminHomeController::class, 'home'])->name('admin.home');
+    //管理者用各従業員勤務時間編集
+    Route::get('/userTime/{user}/edit',[UserAttendanceTimeController::class, 'edit'])->name('userTime.edit');
+    Route::patch('/userTime/{user}/update',[UserAttendanceTimeController::class, 'update'])->name('userTime.update');
 });

@@ -31,8 +31,8 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'start_time' => ['required'],
-            'finish_time' => ['required', new RulesUser($input['start_time'])],
+            /*'start_time' => ['required'],*/
+            'finish_time' => [new RulesUser($input['start_time'])],
         ])->validate();
 
         return User::create([

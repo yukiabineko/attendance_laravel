@@ -33,19 +33,19 @@
           </a>
         </div>
 
-         <!-- ログアウト -->
+         <!-- 出勤者リスト -->
          <div class="panel">
-          <a href="#" class="panel-link">
-            <img src="{{ asset('img/admin/logout.svg')}}" alt="ユーザー一覧" class="panel-img">
-            ログアウト
+          <a href="{{ route('atwork.index')}}" class="panel-link">
+            <img src="{{ asset('img/admin/atwork.svg')}}" alt="出勤者リスト" class="panel-img">
+            出勤者リスト
           </a>
         </div>
 
-         <!-- 従業員一覧 -->
+         <!-- 退勤者リスト -->
          <div class="panel">
-          <a href="#" class="panel-link">
-            <img src="{{ asset('img/admin/user.svg')}}" alt="ユーザー一覧" class="panel-img">
-            従業員一覧
+          <a href="{{route('leaving.index')}}" class="panel-link">
+            <img src="{{ asset('img/admin/gohome.svg')}}" alt="退勤者一覧" class="panel-img">
+            退勤者リスト
           </a>
         </div>
 

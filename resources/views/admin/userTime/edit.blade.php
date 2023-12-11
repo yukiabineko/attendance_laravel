@@ -21,13 +21,13 @@
                 <!-- 出勤時間 -->
                 <div class="form-group">
                     <div class="form-text">出勤時間</div>
-                    <input type="time" name="start_time" class="form-control">
+                    <input type="time" name="start_time" class="form-control" value="{{ old('start_time', $user->start_time )}}">
                 </div>
 
                 <!-- 出勤時間 -->
                 <div class="form-group">
-                    <div class="form-text">出勤時間</div>
-                    <input type="time" name="start_time" class="form-control">
+                    <div class="form-text">退勤時間</div>
+                    <input type="time" name="finish_time" class="form-control" value="{{ old('finish_time', $user->finish_time )}}">
                 </div>
 
                 <!-- 編集ボタン -->

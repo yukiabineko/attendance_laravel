@@ -19,7 +19,7 @@ class Attendance extends Model
     public function user(){
         return $this->belongsTo(User::class); 
     }
-/****************5*************************************** */
+/******************************************************* */
     /**
      * 曜日の取得
      */
@@ -70,5 +70,24 @@ class Attendance extends Model
     $now = date('Y-m-d');
     $target = date('Y-m-d', strtotime( $this->worked_on ));
     return $now >= $target? true : false;
+  }
+/************************************************************* */
+  /**
+   * 土日で日付のスタイル変更
+   */
+  public function ws() :string{
+    $day_number = date('w', strtotime( $this->worked_on ));
+    switch ($day_number) {
+      case 6:
+        return "text-primary fw-bold";
+        break;
+      case 0:
+        return "text-danger fw-bold";
+        break;
+      
+      default:
+        return "text-dark fw-bold";
+        break;
+    }
   }
 }

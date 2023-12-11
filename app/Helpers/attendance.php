@@ -96,3 +96,28 @@ if (!function_exists('attendance_days')) {
     return $attendance_count;
   }
 }
+/**
+ * 15分ごと
+ */
+if(!function_exists('every_15_minutes')){
+  /**
+   * 15分区切りの計算
+   */
+  function every_15_minutes() :string{
+     $min = date('i');
+     if( (int)$min < 15 ){
+       return  "00";
+     }
+     elseif( (int)$min >=15 && (int)$min < 30 ){
+        return "15";
+     }
+     elseif( (int)$min >=30 && (int)$min < 45 ){
+        return "30";
+     }
+     elseif( (int)$min >= 45 ){
+        return "45";
+     }
+    
+  }
+}
+

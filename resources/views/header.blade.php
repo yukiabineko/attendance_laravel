@@ -41,12 +41,12 @@
 
                         <!-- 当日出勤中のリスト -->
                         <li>
-                          <a href="#">出勤中リスト</a>
+                          <a href="{{ route('atwork.index')}}">出勤中リスト</a>
                         </li>
 
                          <!-- 退勤者リスト -->
                         <li>
-                          <a href="#">本日退勤者</a>
+                          <a href="{{ route('leaving.index')}}">本日退勤者</a>
                         </li>
                     </ul>
 

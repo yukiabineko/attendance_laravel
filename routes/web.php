@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\admin\AtworkController;
 use App\Http\Controllers\admin\HomeController as AdminHomeController;
+use App\Http\Controllers\admin\LeavingController;
 use App\Http\Controllers\admin\UserAttendanceTimeController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\general\AttendanceController;
@@ -45,4 +47,8 @@ Route::group(['middleware' =>['auth']], function(){
     //管理者用各従業員勤務時間編集
     Route::get('/userTime/{user}/edit',[UserAttendanceTimeController::class, 'edit'])->name('userTime.edit');
     Route::patch('/userTime/{user}/update',[UserAttendanceTimeController::class, 'update'])->name('userTime.update');
+    //出勤中
+    Route::resource('/atwork',AtworkController::class)->only(['index']);
+    //退勤者リスト
+    Route::resource('/leaving',LeavingController::class)->only(['index']);
 });

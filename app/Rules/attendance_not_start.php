@@ -29,10 +29,12 @@ class attendance_not_start implements Rule
        //退勤時間が入力済みで出勤時間が入力されてない場合のバリデーション
        $flag = 1;
        $finishes = $this->request->finished_at;
+       $now = date('Y-m-d');
 
        foreach ($this->request->started_at as $i => $start) {
+         $worked_on = date('Y-m-d', strtotime($this->request->worked_on[$i]));
          $finish = $finishes[$i];
-         if( !empty( $finish) && empty( $start )){ $flag = 0; }
+         if( $worked_on != $now && !empty( $finish) && empty( $start )){ $flag = 0; }
 
        }//end foreach
        return $flag == 1;

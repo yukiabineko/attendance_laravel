@@ -41,11 +41,14 @@
   </div>
 
   <!-- 勤怠編集ボタン -->
-  <div class="action-btns">
-    <a 
-      href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
-      class="btn btn-success btn-lg">勤怠編集</a>
-  </div>
+  @if ( Auth::user()->admin == 1)
+      <div class="action-btns">
+        <a 
+          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+          class="btn btn-success btn-lg">勤怠編集</a>
+      </div> 
+  @endif
+ 
     
 
 

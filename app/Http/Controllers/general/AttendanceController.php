@@ -47,6 +47,7 @@ class AttendanceController extends Controller
       if( !empty( $request->started_at[$i]) 
       && !empty( $request->finished_at[$i]) ){
         $attendance = Attendance::where('id', $id)->first();
+        $user = $attendance->user()->first();
 
         $now_date = $request->worked_on[$i];
         $new_start_time = $request->started_at[$i];
@@ -60,6 +61,9 @@ class AttendanceController extends Controller
            'context' => $request->context[$i]
         ]);
       }
+    }
+    if (\Auth::user()->admin == 1 ) {
+      return redirect( route('admin.home'))->with('flash', $user->name.'さんの勤怠編集しました。');
     }
     return redirect( route('users.show',['user'=> \Auth::user(), 'date' => $request->date]))
            ->with('flash', '編集しました。');

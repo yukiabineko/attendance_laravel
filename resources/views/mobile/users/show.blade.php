@@ -60,19 +60,15 @@
   </div>
 </div>
 
-<!-- 勤怠編集ボタン -->
-<div class="action-btns">
-  <a 
-    href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
-    class="btn btn-success btn-lg">勤怠編集</a>
-</div>
-      
-
-
-
-
-
-
+ <!-- 勤怠編集ボタン -->
+  @if ( Auth::user()->admin == 1)
+      <div class="action-btns">
+        <a 
+          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+          class="btn btn-success btn-lg">勤怠編集</a>
+      </div> 
+  @endif
+ 
 
 <table class="usser-attendance-mobile">
   <thead>
@@ -153,8 +149,14 @@
         <td>{{ $attendance-> work_tm() }}</td>
       </tr>
     @endforeach
-   
   </tbody>
+   <!-- テーブルフッター -->
+  <tfoot>
+      <tr>
+        <td class="bg-light" colspan="3">合計労働時間</td>
+        <td colspan="7" class="text-center">{{ total( $attendances )}}時間</td>
+      </tr>
+  </tfoot>
 </table>
 
 <style>

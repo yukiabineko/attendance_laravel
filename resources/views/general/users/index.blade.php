@@ -17,7 +17,7 @@
        @if ( $device == 'pc')
           @include('pc.admin.users.index')    
        @else
-           
+          @include('mobile.admin.users.index')     
        @endif  
        
     </main>

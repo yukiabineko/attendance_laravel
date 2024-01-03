@@ -20,7 +20,11 @@
             </div>
           </div>
        </div>
-       
     </main>
+    @if ( $device == 'pc')
+        @include('pc/admin/users/form')
+    @else
+        @include('mobile/admin/users/form')
+    @endif
 
 @endsection

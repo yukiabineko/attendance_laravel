@@ -11,6 +11,10 @@ class HomeController extends Controller
      * 管理者ホーム画面
      */
     public function home(){
-        return view('admin.home');
+        //モバイルからかパソコンからか
+        $device = !\Agent::isMobile() ? 'pc' : 'mobile';
+        return view('admin.home',[
+            'device' => $device
+        ]);
     }
 }

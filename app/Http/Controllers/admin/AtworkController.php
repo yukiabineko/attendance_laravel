@@ -21,9 +21,13 @@ class AtworkController extends Controller
          ->where('attendances.started_at', '!=', null)
          ->where('attendances.finished_at', null)
          ->get();
+
+        //モバイルからかパソコンからか
+        $device = !\Agent::isMobile() ? 'pc' : 'mobile';
    
        return view('admin.atwork.index',[
-         'attendances' => $targets
+         'attendances' => $targets,
+         'device' => $device
        ]);
        
     }

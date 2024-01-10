@@ -120,4 +120,56 @@ if(!function_exists('every_15_minutes')){
     
   }
 }
+/************************************************ */
+ /**
+  * 実労働時間
+  */
+  if( !function_exists('actual_work')){
+    function actual_work(string $start, string $finish) :string
+    {
+       $start_min = (int)date('H', strtotime( $start )) * 60 + (int)date('i',strtotime( $start ));
+       $finish_min = (int)date('H', strtotime($finish)) * 60 + (int)date('i', strtotime($finish));
+       $result = $finish_min - $start_min;
+       //商
+       $quotient = (string)($result  / 60);
+       
+       return $quotient."時間";
 
+    }
+  }
+/****************************************************** */
+/**
+ * 残業時間(管理者用)
+ */
+if( !function_exists('overtime_working')){
+   function overtime_working(
+     string $start,
+     string $finish,
+     string $actual_start,
+     string $actual_finish
+    )
+    {
+      //契約開始時間
+      $start_min = (int)date('H', strtotime($start)) * 60 + (int)date('i', strtotime($start));
+      //契約終了時間
+      $finish_min = (int)date('H', strtotime($finish)) * 60 + (int)date('i', strtotime($finish));
+      //契約時間
+      $contract = ($finish_min - $start_min) / 60;
+
+      //実際の開始時間
+      $actual_start_min = (int)date('H', strtotime($actual_start)) * 60 + (int)date('i', strtotime($actual_start));
+      //実際終了時間
+      $actual_finish_min = (int)date('H', strtotime($actual_finish)) * 60 + (int)date('i', strtotime($actual_finish));
+      //実際の労働時間
+      $actual_worktime = ( $actual_finish_min - $actual_start_min ) / 60;
+     
+      if( $contract > $actual_worktime ){
+        return "/";
+      }
+      else{
+        return ($actual_worktime - $contract)."時間";
+      }
+
+
+    }
+}

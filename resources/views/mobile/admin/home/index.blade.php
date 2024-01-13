@@ -35,21 +35,17 @@
           </a>
         </div>
 
-        <!-- 従業員新規登録 -->
-        <div class="mobile-panel">
-          <a href="#" class="panel-link">
-            <img src="{{ asset('img/admin/user-edit.svg')}}" alt="ユーザー一覧" class="panel-img">
-            従業員登録
-          </a>
-        </div>
-        
          <!-- ログアウト -->
          <div class="mobile-panel">
-          <a href="#" class="panel-link">
-            <img src="{{ asset('img/admin/logout.svg')}}" alt="ユーザー一覧" class="panel-img">
-            ログアウト
-          </a>
+           <form action="{{ route('logout')}}" method="post" class="logout-panel">
+             @csrf
+             <button type="submit">
+                <img src="{{ asset('img/admin/logout.svg')}}" alt="ユーザー一覧" class="panel-img">
+                ログアウト
+             </button>
+           </form>
         </div>
+        
      </div>
  </main>
 

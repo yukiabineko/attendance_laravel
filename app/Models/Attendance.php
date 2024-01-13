@@ -43,7 +43,7 @@ class Attendance extends Model
 
             $work_time = (float)( ($end_min  - $satrt_min) / 60 );
 
-            return floor( $work_time );
+            return $work_time;
         }
         return  null;
    }

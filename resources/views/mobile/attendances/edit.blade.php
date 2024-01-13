@@ -58,6 +58,12 @@
 <!--------------------------------------------------------------------------------------->
  <!--  スタイル　 -->
  <style>
+  *{
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
    .mobile-attendance-edit-table{
       border-collapse: collapse;
       background-color: #f9f9f9;

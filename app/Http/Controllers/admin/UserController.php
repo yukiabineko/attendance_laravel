@@ -104,18 +104,52 @@ class UserController extends Controller
           fgetcsv($fp);
           //１行ずつ読み込み
           while(($csvData = fgetcsv($fp)) !== FALSE){
-             \print_r($csvData);
+            $keys = [ 
+                     'name', 
+                     'email', 
+                     'start_time',
+                     'finish_time',
+                     'admin',
+                     'password',
+                     'affiliation',
+                     'employee_number',
+                     'base_time',
+                    'superior'
+                    ];
+            $csvArray = array_combine($keys, $csvData);
+
+            //バリデーション
+            $validator = Validator::make($csvArray, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique(User::class),
+                ],
+                'password' => ['required'],
+                'start_time' => ['required'],
+                'finish_time' => ['required', new RulesUser($request->start_time)],
+            ]);
+            //バリデーションエラーの場合入力画面に戻る
+            if ($validator->fails()) {
+                return redirect(route('users.index'))
+                ->withErrors($validator)
+                    ->withInput();
+            }
+
              $user = new User();
-             $user->name = $csvData[0];
-             $user->email = $csvData[1];
-             $user->start_time  = $csvData[2];
-             $user->finish_time = $csvData[3];
-             $user->admin = $csvData[4];
-             $user->password = $csvData[5];
-             $user->affiliation = $csvData[6];
-             $user->employee_number = $csvData[7];
-             $user->base_time = $csvData[8];
-             $user->superior = $csvData[9];
+             $user->name = $csvArray['name'];
+             $user->email = $csvArray['email'];
+             $user->start_time = $csvArray['start_time'];;
+             $user->finish_time = $csvArray['finish_time'];;
+             $user->admin = $csvArray['admin'];
+             $user->password = $csvArray['password'];
+             $user->affiliation = $csvArray['affiliation'];
+             $user->employee_number = $csvArray['employee_number'];
+             $user->base_time = $csvArray['base_time'];
+             $user->superior = $csvArray['superior'];
              $user->save();
           }
           fclose($fp);

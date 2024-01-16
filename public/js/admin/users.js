@@ -32,6 +32,7 @@ window.addEventListener('load', ()=>{
   let file = document.getElementById('csv-file');
   let fileText = document.querySelector('.csv-file-text');
   file.addEventListener('change', event =>{
+    fileText.textContent = "";
     let fileContext = event.currentTarget.files[0];
     fileText.textContent = fileContext.name;
 

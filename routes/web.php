@@ -42,6 +42,8 @@ Route::group(['middleware' =>['auth']], function(){
     Route::resource('users', UserController::class)->only(['edit','update', 'show']);
     //管理者版ユーザー管理
     Route::resource('/admin/users',AdminUserController::class)->only(['destroy','index', 'store', 'create']);
+    //管理者csvインポート
+    Route::post('/users/csvImport',[AdminUserController::class, 'csvImport'])->name('admin.users.csvImport');
     //管理者ホーム画面
     Route::get('/admin/home',[AdminHomeController::class, 'home'])->name('admin.home');
     //管理者用各従業員勤務時間編集

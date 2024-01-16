@@ -69,21 +69,37 @@ class UserController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($user->id)
             ],
+            'employee_number' => [
+                'required', 
+                'min:8',
+            ],
             'password' => ['required', 'string', new Password, 'confirmed'],
+            'base_time' => ['required'],
             /*'start_time' => ['required'],*/
             'finish_time' => [new RulesUser($request->start_time )],
         ]);
         
         //バリデーションエラーの場合入力画面に戻る
           if ($validator->fails()) {
-            return redirect( route('users.edit', $user))
-            ->withErrors($validator)
-            ->withInput();
+            if( \Auth::user()->admin ==0){
+                return redirect(route('users.edit', $user))
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            else{
+                return redirect(route('users.index'))
+                    ->withErrors($validator)
+                    ->withInput(); 
+            }
+           
           }
           $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'affiliation' => $request->affiliation,
+            'employee_number' => $request->employee_number,
             'password' => Hash::make( $request->password ),
+            'base_time' => $request-> base_time,
             'start_time' => $request->start_time,
             'finish_time' => $request->finish_time
           ]);

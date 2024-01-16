@@ -91,9 +91,9 @@ return [
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
-        'numeric' => 'The :attribute must be at least :min.',
+        'numeric' => ':attributeは最低:minです。',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' => ':attributeは:min桁です',
         'array' => 'The :attribute must have at least :min items.',
     ],
     'multiple_of' => 'The :attribute must be a multiple of :value.',
@@ -163,7 +163,9 @@ return [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'start_time' => '出勤時間',
-        'finish_time'=> '退勤時間'
+        'finish_time'=> '退勤時間',
+        'employee_number' => '社員番号',
+        'base_time' => '契約労働時間',
     ],
 
 ];

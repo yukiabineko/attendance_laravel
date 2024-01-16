@@ -4,12 +4,13 @@
    従業員一覧
 @endsection
 
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/auth.css')}}">
+
+@section('js')
+    <script src="{{ asset('js/admin/users.js')}}"></script>
 @endsection
 
 @section('contents')
-    <main class="auth-main">
+    <main>
        @include('share/flash')
        @include('share/errors')
        

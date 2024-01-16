@@ -92,4 +92,39 @@ class UserController extends Controller
     public function destroy(User $user){
         dd($user);
     }
+    /**************************************** */
+    /**csvインポート */
+    public function csvImport(Request $request){
+       if( $request->hasFile('file')){
+          $file = $request->file('file');
+          $path = $file->getRealPath();
+          //ファイル開く
+          $fp = fopen($path, 'r');
+          //ヘッダーを削除
+          fgetcsv($fp);
+          //１行ずつ読み込み
+          while(($csvData = fgetcsv($fp)) !== FALSE){
+             \print_r($csvData);
+             $user = new User();
+             $user->name = $csvData[0];
+             $user->email = $csvData[1];
+             $user->start_time  = $csvData[2];
+             $user->finish_time = $csvData[3];
+             $user->admin = $csvData[4];
+             $user->password = $csvData[5];
+             $user->affiliation = $csvData[6];
+             $user->employee_number = $csvData[7];
+             $user->base_time = $csvData[8];
+             $user->superior = $csvData[9];
+             $user->save();
+          }
+          fclose($fp);
+          return redirect(route('users.index'))->with('flash', 'csvインポートしました。');
+       } 
+       else {
+            throw new Exception('CSVファイルの取得に失敗しました。');
+        }
+    }
+    /************************************************************** */
+
 }

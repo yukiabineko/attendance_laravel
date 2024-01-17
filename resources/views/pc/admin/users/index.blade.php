@@ -174,9 +174,10 @@
     border-left: 1px solid #c0c0c0;
     border-right: 1px solid #c0c0c0;
     border-bottom: 1px solid #c0c0c0;
-    transition: .4s  ease-in;
+    transition: .4s all;
     position: relative;
     opacity: 0;
+    overflow: hidden;
     z-index: 1;
   }
 

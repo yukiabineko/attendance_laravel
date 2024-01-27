@@ -7,6 +7,9 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/general/users/show.css')}}">
 @endsection
+@section('js')
+    <script src="{{ asset('js/general/home.js')}}"></script>
+@endsection
 
 @section('contents')
     <!-- メイン -->
@@ -21,7 +24,13 @@
       @else
           @include('mobile.users.show')
       @endif
-      
     </main>
+    <!--------------------------------------------------------------------->
+    <!-- モーダル -->
+    @if ( $device == 'pc')
+        @include('pc.users.overtimeModal')    
+    @else
+        @include('pc.users.overtimeModal')    
+    @endif
 
 @endsection

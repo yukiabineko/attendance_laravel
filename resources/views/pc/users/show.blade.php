@@ -53,16 +53,27 @@
 
 
 <table class="table table-bordered m-auto  attendance-table">
-        <thead class="bg-light text-center align-middle">
+        <thead class="text-center align-middle">
           <!-- ヘッダー1 -->
           <tr>
-            <th rowspan="2">日付</th>
-            <th rowspan="2">曜日</th>
+            <th rowspan="3">残業申請</th>
+            <th rowspan="3">日付</th>
+            <th rowspan="3">曜日</th>
+            <th colspan="8">【実績】</th>
+            <th colspan="4">所定外勤務</th>
+          </tr>
+
+          <tr>
             <th colspan="3">出勤時間</th>
             <th colspan="3">退勤時間</th>
             <th rowspan="2">在社時間</th>
             <th rowspan="2">備考</th>
+            <th colspan="2">終了予定時間</th>
+            <th rowspan="2">時間外時間</th>
+            <th rowspan="2">業務処理内容</th>
+            <th rowspan="2">指示者確認㊞</th>
           </tr>
+
            <!-- ヘッダー2 -->
            <tr>
             <th>時</th>
@@ -71,12 +82,21 @@
             <th>時</th>
             <th>分</th>
             <th></th>
+            <th>時</th>
+            <th>分</th>
            </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="text-center;align:middle">
           <!-- データ -->
           @foreach ($attendances as $attendance)
               <tr>
+                <!-- 残業申請 -->
+                <td>
+                  <button 
+                    type="button" 
+                    class="btn btn-primary" 
+                    onclick="overTimeData(this, {{$attendance->id }})">残業申請</button>
+                </td>
                 <!-- 日付け -->
                 <td class="{{ $attendance->ws() }}">{{ date('m/d', strtotime( $attendance->worked_on ))}}</td>
 
@@ -130,7 +150,31 @@
                 @endif
                 
                 <td>{{ $attendance-> work_tm() }}</td>
+                <td>{{ $attendance->note }}</td>
+                <!-- 終了予定時間　時 -->
+                <td style={{ $attendance->overTimeColorStyle()}}>
+                  @if (isset( $attendance->end_schedule))
+                      {{ date('H', strtotime( $attendance->end_schedule ))}} 
+                  @endif
+                </td>
+
+                <!-- 終了予定時間　分 -->
+                <td style={{ $attendance->overTimeColorStyle()}}>
+                   @if (isset( $attendance->end_schedule))
+                      {{ date('i', strtotime( $attendance->end_schedule ))}} 
+                   @endif
+                </td>
                 <td></td>
+
+                <!-- 業務処理 -->
+                <td>{{ $attendance->context }}</td>
+
+                <!-- 申請先情報 -->
+                <td style={{ $attendance->overTimeColorStyle()}}>
+                  @if ( $attendance->overtime_approval == 1)
+                    {{ $attendance->getSuperiorName()}}に<br>残業申請中
+                  @endif
+                </td>
               </tr>
           @endforeach
         </tbody>

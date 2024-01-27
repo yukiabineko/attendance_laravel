@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\UserAttendanceTimeController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\general\AttendanceController;
 use App\Http\Controllers\general\FinishAttendanceController;
+use App\Http\Controllers\general\OvertimeModalController;
 use App\Http\Controllers\general\StartAttendanceController;
 use App\Http\Controllers\general\UserController;
 use App\Http\Controllers\HomeController;
@@ -38,6 +39,12 @@ Route::group(['middleware' =>['auth']], function(){
     //ユーザー個別の勤怠編集ページ
     Route::get('/attendance/{user}/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
     Route::patch('/attendance/{user}/update',[ AttendanceController::class, 'update'])->name('attendances.update');
+
+    //ユーザー勤怠ページ残業申請モーダールボタン押下
+    Route::get('/overtimeModal/{id}',[OvertimeModalController::class, 'show'])->name('overtimeModal.show');
+    //ユーザー残業申請処理
+    Route::patch('/overtimeModal/update', [OvertimeModalController::class, 'update'])->name('overtimeModal.update');
+
     //ユーザープロフィール変更画面
     Route::resource('users', UserController::class)->only(['edit','update', 'show']);
     //管理者版ユーザー管理

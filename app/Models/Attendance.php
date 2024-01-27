@@ -14,7 +14,11 @@ class Attendance extends Model
         'started_at',
         'finished_at',
         'context',
-        'user_id'
+        'user_id',
+        'end_schedule',
+        'overtime_approval',
+        'superior_id',
+        'note'
     ];
     public function user(){
         return $this->belongsTo(User::class); 
@@ -87,6 +91,31 @@ class Attendance extends Model
       
       default:
         return "text-dark fw-bold";
+        break;
+    }
+  }
+/**************************************************************************************** */ 
+  /**
+   * 申請先の上長のデータ抽出
+   */
+  public function getSuperiorName() :string{
+     $superior = User::where('id', $this->superior_id)->first();
+     return $superior->name;
+  }
+/***************************************************************************************** */
+ /**
+  * 承認状況による色の分岐
+  */
+  public function overTimeColorStyle() :string{
+    switch ( (int)$this->overtime_approval) {
+      case 0:
+        return "color:black";
+        break;
+      case 1:
+        return "color:#6699FF;font-weight:bold";
+        break;
+      
+      default:
         break;
     }
   }

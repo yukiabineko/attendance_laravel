@@ -30,6 +30,7 @@ class OvertimeModalController extends Controller
      *残業申請処理
      */
     public function update(Request $request){
+       
        //次の日のチェックがある場合
        if( isset($request->tomorrow ) ){
          

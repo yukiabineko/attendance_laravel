@@ -1,3 +1,63 @@
+<!-- 会員情報 -->
+  <ul class="user-infos">
+    <!-- 月切り替え -->
+    <li>
+       <div class="d-flex justify-content-between align-items-center w-100">
+          <!--前の月へ移動 -->
+          <a 
+          href="{{ route('users.show',['user' => $user, 
+          'date' => get_prev( $attendances ) ])}}" 
+          class="btn btn-primary">←</a>
+
+          <!-- 現在月情報 -->
+          <div>{{ date('Y年m月d日', strtotime( $attendances[0]->worked_on ) )}}</div>
+
+          <!--前の月へ移動 -->
+          <a 
+          href="{{ route('users.show',['user' => $user, 
+          'date' => get_next( $attendances ) ])}}" 
+          class="btn btn-primary">→</a>
+      </div>
+    </li>
+
+    <!-- 名前 -->
+    <li>会員名: {{ $user->name }}</li>
+
+    <!-- メールアドレス -->
+    <li>メールアドレス: {{ $user->email }}</li>
+
+    <!-- 出退勤 -->
+    <li>
+      <div class="info-wrapper">
+        <div class="info-item">初日: {{ first_date( $attendances )}} </div>
+        <div class="info-item">末日: {{ end_date( $attendances )}}</div>
+      </div>
+    </li>
+
+     <!-- 初日、末日 -->
+    <li>
+      <div class="info-wrapper">
+        <div class="info-item">出勤時間: {{ $user->start_time }}</div>
+        <div class="info-item">退勤時間: {{ $user->finish_time }}</div>
+      </div>
+    </li>
+
+    <!-- 勤怠日数 -->
+    <li>勤怠日数:{{ attendance_days( $attendances )}}</li>
+
+  </ul>
+
+  <!-- 勤怠編集ボタン -->
+  @if ( Auth::user()->admin == 1)
+      <div class="action-btns">
+        <a 
+          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+          class="btn btn-success btn-lg">勤怠編集</a>
+      </div> 
+  @endif
+ 
+    
+<!--------------------------勤怠--------------------------------------------->
 <table class="home-table">
   <thead>
     <!-- テーブルヘッダー -->
@@ -19,7 +79,7 @@
                 <button 
                   type="button" 
                   class="btn btn-primary" 
-                  onclick="overTimeData(this, {{$attendance->id }})">残業申請</button>
+                  onclick="overTimeDataMobile(this, {{$attendance->id }})">残業申請</button>
              </div>
           </td>
           <td colspan="7" class="mobile-title">【実績】</td>
@@ -184,7 +244,39 @@
     width: calc(100% - 2px);
     margin: 0 auto;
   }
-  /*テーブル*/
+  /***********************************************************************************/
+  /**ユーザーテーブル**/
+   .user-infos{
+     width: 100%;
+     margin: 3rem 0 0 0;
+     padding: 0;
+     list-style: none;
+   }
+   .user-infos li{
+    border: 1px solid #c0c0c0;
+    border-bottom: none;
+    line-height: 2.5;
+   }
+   .user-infos li:last-child{
+    border-bottom: 1px solid #c0c0c0;
+   }
+   .info-wrapper{
+     display: flex;
+     align-items: center;
+     justify-content: flex-start;
+    
+   }
+   .info-item{
+     width: 50%;
+     
+   }
+   .info-item:nth-child(odd){
+      border-right: 1px solid #c0c0c0;
+   }
+
+
+  /**********************************************************************************/
+  /*勤怠テーブル*/
   .home-table{
     width: 100%;
     border-collapse: collapse;

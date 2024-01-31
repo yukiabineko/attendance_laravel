@@ -9,6 +9,8 @@
 @endsection
 @section('js')
     <script src="{{ asset('js/general/home.js')}}"></script>
+    <script src="{{ asset('js/general/home-mobile.js')}}"></script>
+   
 @endsection
 
 @section('contents')
@@ -30,7 +32,7 @@
     @if ( $device == 'pc')
         @include('pc.users.overtimeModal')    
     @else
-        @include('pc.users.overtimeModal')    
+        @include('mobile.users.overtimeModal')    
     @endif
 
 @endsection

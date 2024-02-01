@@ -32,7 +32,6 @@ class UserController extends Controller
         $device = !\Agent::isMobile() ? 'pc' : 'mobile';
         $attendances = $user->getAttendances( $request->date );
         
-
         return view('home',[
             'user' => $user,
             'attendances' => $attendances,

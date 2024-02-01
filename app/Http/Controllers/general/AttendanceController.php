@@ -18,12 +18,15 @@ class AttendanceController extends Controller
     //モバイルからかパソコンからか
     $device = !\Agent::isMobile() ? 'pc' : 'mobile';
     $attendances = $user->getAttendances( $request->date );
+    $superiors = User::where('superior', 1)->get();
+   
         
     return view('general.attendances.edit',[
         'user' => $user,
         'attendances' => $attendances,
         'device' => $device,
-        'date' => $request->date
+        'date' => $request->date,
+        'superiors' => $superiors
     ]);
   }
   /*************編集処理********************************************** */

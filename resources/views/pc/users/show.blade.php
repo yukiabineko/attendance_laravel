@@ -5,6 +5,7 @@
         <!-- 会員情報 -->
         <table class="table table-bordered mt-5">
           <tbody>
+           <!-- １段目 -->
             <tr>
               <td>
                 <div class="d-flex justify-content-between align-items-center w-100">
@@ -27,12 +28,22 @@
               <td colspan="2" class="align-middle">会員名: {{ $user->name }}</td>
               <td colspan="2" class="align-middle">メールアドレス: {{ $user->email }}</td>
             </tr>
+          <!-- ２段目 -->
             <tr>
               <td>出勤時間: {{ $user->start_time }}</td>
               <td>退勤時間: {{ $user->finish_time }}</td>
-              <td>初日: {{ first_date( $attendances )}} </td>
-              <td>末日: {{ end_date( $attendances )}}</td>
-              <td>勤怠日数:{{ attendance_days( $attendances )}} </td>
+              <td>契約時間: {{ $user->base_time }}</td>
+            </tr>
+          <!-- ３段目 -->
+            <tr>
+                <td>初日: {{ first_date( $attendances )}} </td>
+                <td>末日: {{ end_date( $attendances )}}</td>
+                <td colspan="2">勤怠日数:{{ attendance_days( $attendances )}} </td>
+            </tr>
+          <!-- ４段目 -->
+            <tr>
+                <td colspan="2">社員番号: {{ $user->employee_number }} </td>
+                <td colspan="2">担当部門: {{ $user->affiliation }}</td>
             </tr>
           </tbody>
         </table>
@@ -41,16 +52,13 @@
   </div>
 
   <!-- 勤怠編集ボタン -->
-  @if ( Auth::user()->admin == 1)
-      <div class="action-btns">
-        <a 
-          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
-          class="btn btn-success btn-lg">勤怠編集</a>
-      </div> 
-  @endif
+  <div class="action-btns">
+    <a 
+      href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+      class="btn btn-success btn-lg">勤怠編集</a>
+  </div> 
  
-    
-
+ 
 
 <table class="table table-bordered m-auto  attendance-table">
         <thead class="text-center align-middle">
@@ -60,7 +68,7 @@
             <th rowspan="3">日付</th>
             <th rowspan="3">曜日</th>
             <th colspan="8">【実績】</th>
-            <th colspan="4">所定外勤務</th>
+            <th colspan="4">【所定外勤務】</th>
           </tr>
 
           <tr>
@@ -171,10 +179,11 @@
 
                 <!-- 申請先情報 -->
                 <td style={{ $attendance->overTimeColorStyle()}}>
-                  @if ( $attendance->overtime_approval == 1)
-                    {{ $attendance->getSuperiorName()}}に<br>残業申請中
+                  @if ( $attendance->overtime_approval == 1 && isset( $attendance->overtime_superior_id ))
+                    <p>{{ $attendance->getOvertimeSuperiorName()}}に>残業申請中</p>
                   @endif
                 </td>
+                
               </tr>
           @endforeach
         </tbody>

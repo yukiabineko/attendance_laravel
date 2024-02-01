@@ -1,4 +1,7 @@
 .attendance-table, .action-btns{
-  width: 90%;
+  width: 90% !important;
   margin: 10px auto;
+}
+.action-btns a{
+  display: inline-block;
 }

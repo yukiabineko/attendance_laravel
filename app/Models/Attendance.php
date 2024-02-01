@@ -17,7 +17,7 @@ class Attendance extends Model
         'user_id',
         'end_schedule',
         'overtime_approval',
-        'superior_id',
+        'overtime_superior_id',
         'note'
     ];
     public function user(){
@@ -98,8 +98,8 @@ class Attendance extends Model
   /**
    * 申請先の上長のデータ抽出
    */
-  public function getSuperiorName() :string{
-     $superior = User::where('id', $this->superior_id)->first();
+  public function getOvertimeSuperiorName() :string{
+     $superior = User::where('id', $this->overtime_superior_id)->first();
      return $superior->name;
   }
 /***************************************************************************************** */

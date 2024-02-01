@@ -53,7 +53,7 @@ class OvertimeModalController extends Controller
           'end_schedule' => $end_schedule,
           'overtime_approval' => 1,
           'context' => $request->process,
-          'superior_id' => $request->superior,
+          'overtime_superior_id' => $request->superior,
           'overtime_approval' => $request->approval
        ]);
        return redirect(route('home'))->with('flash', '残業申請しました。');

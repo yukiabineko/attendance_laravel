@@ -34,6 +34,9 @@
       </div>
     </li>
 
+    <!-- 契約時間 -->
+    <li>契約労働時間: {{ $user->base_time }}</li>
+
      <!-- 初日、末日 -->
     <li>
       <div class="info-wrapper">
@@ -45,16 +48,21 @@
     <!-- 勤怠日数 -->
     <li>勤怠日数:{{ attendance_days( $attendances )}}</li>
 
+    <!-- 社員番号 -->
+    <li>社員番号: {{ $user->employee_number }}</li>
+
+    <!-- 担当部門 -->
+    <li>担当部門: {{ $user->affiliation }}</li>
+
   </ul>
 
   <!-- 勤怠編集ボタン -->
-  @if ( Auth::user()->admin == 1)
-      <div class="action-btns">
-        <a 
-          href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
-          class="btn btn-success btn-lg">勤怠編集</a>
-      </div> 
-  @endif
+  <div class="d-grid gap-2 mt-4">
+    <a 
+      href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
+      class="btn btn-success btn-lg">勤怠編集</a>
+  </div> 
+ 
  
     
 <!--------------------------勤怠--------------------------------------------->
@@ -168,7 +176,7 @@
 <!------------------------------------------------------------------------------------------------------------------------------->
     <!-- 7段目所定勤務時間ヘッダー -->
     <tr>
-      <td colspan="7" class="mobile-title">【所定勤務時間】</td>
+      <td colspan="7" class="mobile-title">【所定外勤務時間】</td>
     </tr>
     
     <!-- 8段目 終了予定、時間外時間ヘッダー -->
@@ -213,12 +221,13 @@
      <tr>
        <td colspan="7" class="mobile-title">指示者確認㊞</td>
      </tr>
+     
 
     <!-- 14段目 指示者確認内容 -->
      <tr>
        <td colspan="7">
-        @if ( $attendance->overtime_approval == 1)
-          {{ $attendance->getSuperiorName()}}に<br>残業申請中
+        @if ( $attendance->overtime_approval == 1 && isset( $attendance->overtime_superior_id ))
+          <p class="text-primary">{{ $attendance->getOvertimeSuperiorName()}}に残業申請中</p>
         @endif
        </td>
      </tr>

@@ -8,6 +8,7 @@
       <th>退勤時間</th>
       <th>在社時間</th>
       <th>備考</th>
+      <th>指示者確認㊞</th>
     </tr>
   </thead>
   <tbody class="text-center">
@@ -55,6 +56,17 @@
               {{ $attendance->future_check() == false? "readonly" : ""}}
             ></textarea>
           </td>
+
+          <!-- 指示者セレクト -->
+          <td class="align-middle">
+            <select name="superior_id" class="form-select" {{ $attendance->future_check() == false? "disabled" : ""}}>
+              <option ></option>
+              @foreach ($superiors as $superior)
+                  <option value="{{ $superior->id }}">{{ $superior->name }}</option>
+              @endforeach
+            </select>
+          </td>
+         
           <!-- 勤怠のid -->
           <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}">
           <!-- 勤怠日 -->

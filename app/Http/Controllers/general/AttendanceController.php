@@ -5,6 +5,7 @@ namespace App\Http\Controllers\general;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Rules\attendance_edit_superior;
 use App\Rules\attendance_not_finish;
 use App\Rules\attendance_not_start;
 use App\Rules\Attendance_time;
@@ -36,8 +37,10 @@ class AttendanceController extends Controller
       'started_at' => [ new attendance_not_finish( $request)],
       'finished_at' => [ 
         new Attendance_time($request),
-        new attendance_not_start( $request )
+        new attendance_not_start( $request ),
+       
       ],
+      
     ]);
 
     if ($validator->fails()) {
@@ -57,11 +60,16 @@ class AttendanceController extends Controller
         $new_end_time = $request->finished_at[$i];
         $new_start_datetime = "$now_date $new_start_time";
         $new_end_datetime = "$now_date $new_end_time";
+        $edit_superior_id = $request->superior_id[$i];
+        $edit_approval = isset( $edit_superior_id )? 1 : 0;
+       
 
         $attendance->update([
            'started_at' => $new_start_datetime,
            'finished_at' => $new_end_datetime,
-           'context' => $request->context[$i]
+           'context' => $request->context[$i],
+           'edit_superior_id' => $edit_superior_id,
+           'edit_approval' => $edit_approval
         ]);
       }
     }

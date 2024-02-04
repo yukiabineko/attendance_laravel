@@ -179,9 +179,16 @@
 
                 <!-- 申請先情報 -->
                 <td style={{ $attendance->overTimeColorStyle()}}>
+                  <!-- 残業申請がある場合 -->
                   @if ( $attendance->overtime_approval == 1 && isset( $attendance->overtime_superior_id ))
-                    <p>{{ $attendance->getOvertimeSuperiorName()}}に>残業申請中</p>
+                    <p class="text-primary">{{ $attendance->getSuperiorName('overtime')}}に残業申請中</p>
                   @endif
+
+                  <!-- 勤怠変更申請ある場合 -->
+                   @if ( $attendance-> edit_approval == 1 && isset( $attendance->edit_superior_id ))
+                    <p class="text-primary">{{ $attendance->getSuperiorName('edit')}}に勤怠変更申請中</p>
+                  @endif
+
                 </td>
                 
               </tr>

@@ -29,7 +29,7 @@
               value="{{ $attendance->start_tm()}}" 
               class="form-control start-form"
               id="start-{{ $attendance->id }}"
-                {{ $attendance->future_check() == false? "readonly" : ""}}
+                {{ $attendance->future_check() == false? "disabled" : ""}}
             >
           </td>
 
@@ -41,7 +41,7 @@
               value="{{ $attendance->finish_tm()}}" 
               class="form-control end-form"
               id="end-{{ $attendance->id }}"
-              {{ $attendance->future_check() == false? "readonly" : ""}}
+              {{ $attendance->future_check() == false? "disabled" : ""}}
               >
           </td>
 
@@ -53,13 +53,13 @@
             <textarea 
               name="context[]" 
               class="form-control" {{ old('contex', $attendance->context )}}
-              {{ $attendance->future_check() == false? "readonly" : ""}}
+              {{ $attendance->future_check() == false? "disabled" : ""}}
             ></textarea>
           </td>
 
           <!-- 指示者セレクト -->
           <td class="align-middle">
-            <select name="superior_id" class="form-select" {{ $attendance->future_check() == false? "disabled" : ""}}>
+            <select name="superior_id[]" class="form-select" {{ $attendance->future_check() == false? "disabled" : ""}}>
               <option ></option>
               @foreach ($superiors as $superior)
                   <option value="{{ $superior->id }}">{{ $superior->name }}</option>
@@ -68,11 +68,11 @@
           </td>
          
           <!-- 勤怠のid -->
-          <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}">
+          <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}"  {{ $attendance->future_check() == false? "disabled" : ""}}>
           <!-- 勤怠日 -->
-          <input type="hidden" name="worked_on[]" value="{{ $attendance->worked_on }}">
+          <input type="hidden" name="worked_on[]" value="{{ $attendance->worked_on }}"  {{ $attendance->future_check() == false? "disabled" : ""}}>
           <!-- 月パラメーター -->
-          <input type="hidden" name="date" value="{{ $date }}">
+          <input type="hidden" name="date" value="{{ $date }}"  {{ $attendance->future_check() == false? "disabled" : ""}}>
 
         </tr>
     @endforeach

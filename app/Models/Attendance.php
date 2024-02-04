@@ -18,7 +18,9 @@ class Attendance extends Model
         'end_schedule',
         'overtime_approval',
         'overtime_superior_id',
-        'note'
+        'note',
+        'edit_approval',
+        'edit_superior_id'
     ];
     public function user(){
         return $this->belongsTo(User::class); 
@@ -73,7 +75,7 @@ class Attendance extends Model
   public function future_check() :bool{
     $now = date('Y-m-d');
     $target = date('Y-m-d', strtotime( $this->worked_on ));
-    return $now >= $target? true : false;
+    return $now > $target? true : false;
   }
 /************************************************************* */
   /**
@@ -98,8 +100,20 @@ class Attendance extends Model
   /**
    * 申請先の上長のデータ抽出
    */
-  public function getOvertimeSuperiorName() :string{
-     $superior = User::where('id', $this->overtime_superior_id)->first();
+  public function getSuperiorName(string $name) :string{
+     switch ($name) {
+      case 'overtime':
+        $superior = User::where('id', $this->overtime_superior_id)->first();
+        break;
+
+      case 'edit':
+        $superior = User::where('id', $this->edit_superior_id)->first();
+        break;
+
+      default:
+        break;
+     }
+    
      return $superior->name;
   }
 /***************************************************************************************** */

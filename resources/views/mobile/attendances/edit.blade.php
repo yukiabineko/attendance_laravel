@@ -3,7 +3,6 @@
     <tr>
       <th>日付</th>
       <th>出退勤時間</th>
-      <th>在社時間</th>
     </tr>
   </thead> 
   <tbody>
@@ -17,6 +16,7 @@
 
           <!-- 出退勤時間フォーム -->
           <td class="mobile-forms">
+            <!-- 出勤時間 -->
             <div class="form-title">出勤時間</div>
              <input 
                 type="time" 
@@ -26,6 +26,8 @@
                 id="start-{{ $attendance->id }}"
                 {{ $attendance->future_check() == false? "readonly" : ""}}
               >
+
+            <!-- 出勤時間 -->
             <div class="form-title">退勤時間</div>
              <input 
               type="time" 
@@ -35,15 +37,32 @@
               id="end-{{ $attendance->id }}"
               {{ $attendance->future_check() == false? "readonly" : ""}}
               >
+
+            <!-- 在社時間 -->
+            <div class="form-mobile-group">
+              <div class="form-title">在社時間</div>
+              <div class="totals" id="total-{{ $attendance->id }}">{{ $attendance-> work_tm() }}</div>
+            </div>
+            
+             <!-- 備考 -->
              <div class="form-title">備考</div>
              <textarea 
               name="context[]" 
-              class="textarea" {{ old('contex', $attendance->context )}}
+              class="textarea"
               {{ $attendance->future_check() == false? "readonly" : ""}}
-            ></textarea>
+            >{{ old('note', $attendance->note )}}</textarea>
+
+            <!-- 指示者セレクト -->
+            <div class="form-title">指示者確認㊞</div>
+             <select name="superior_id[]" class="form-select" {{ $attendance->future_check() == false? "disabled" : ""}}>
+              <option ></option>
+              @foreach ($superiors as $superior)
+                  <option value="{{ $superior->id }}">{{ $superior->name }}</option>
+              @endforeach
+            </select>
+            <br>
           </td>
-           <!-- 在社時間 -->
-          <td class="align-middle totals" id="total-{{ $attendance->id }}">{{ $attendance-> work_tm() }}</td>
+          
           <!-- 勤怠のid -->
           <input type="hidden" name="attendance_id[]" value="{{ $attendance->id }}">
           <!-- 勤怠日 -->
@@ -94,6 +113,12 @@
    .form-title{
     margin: 5px
    }
+   .form-mobile-group{
+     align-items: center;
+     display: flex;
+     justify-content: space-between;
+   }
+
    .start-form,
    .end-form,
    textarea

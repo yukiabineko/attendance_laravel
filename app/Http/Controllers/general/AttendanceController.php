@@ -63,14 +63,15 @@ class AttendanceController extends Controller
         $edit_superior_id = $request->superior_id[$i];
         $edit_approval = isset( $edit_superior_id )? 1 : 0;
        
-
-        $attendance->update([
-           'started_at' => $new_start_datetime,
-           'finished_at' => $new_end_datetime,
-           'context' => $request->context[$i],
-           'edit_superior_id' => $edit_superior_id,
-           'edit_approval' => $edit_approval
-        ]);
+        if( isset($edit_superior_id) ){
+            $attendance->update([
+              'started_at' => $new_start_datetime,
+              'finished_at' => $new_end_datetime,
+              'note' => $request->context[$i],
+              'edit_superior_id' => $edit_superior_id,
+              'edit_approval' => $edit_approval
+            ]);
+        }
       }
     }
     if (\Auth::user()->admin == 1 ) {

@@ -52,9 +52,9 @@
           <td>
             <textarea 
               name="context[]" 
-              class="form-control" {{ old('contex', $attendance->context )}}
+              class="form-control"
               {{ $attendance->future_check() == false? "disabled" : ""}}
-            ></textarea>
+            >{{ old('note', $attendance->note )}}</textarea>
           </td>
 
           <!-- 指示者セレクト -->

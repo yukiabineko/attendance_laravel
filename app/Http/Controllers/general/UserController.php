@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\general;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Models\User;
 use App\Rules\User as RulesUser;
 use Illuminate\Validation\Rule;
@@ -31,12 +32,51 @@ class UserController extends Controller
         //モバイルからかパソコンからか
         $device = !\Agent::isMobile() ? 'pc' : 'mobile';
         $attendances = $user->getAttendances( $request->date );
+        //上長(本人以外)の抽出
+        $superiors = User::where('superior', 1)
+                           ->where('id', '!=', \Auth::id())
+                           ->get();
+
+        if( $auth_user->superior == 1){
         
-        return view('home',[
-            'user' => $user,
-            'attendances' => $attendances,
-            'device' => $device
-        ]);
+           //残業申請の件数
+           $overtime_attendances = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                                   ->where('overtime_superior_id',\Auth::id())
+                                   ->where('overtime_approval', 1)->get();
+
+           //勤怠変更申請件数
+           $edit_attendances = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                               ->where('edit_superior_id', \Auth::id())
+                               ->where('edit_approval', 1)->get();
+
+           //一ヶ月申請件数
+           $auth_attendances =  Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                                ->where('month_superior_id', \Auth::id())
+                                ->where('month_approval', 1)->get();
+
+           $moth_auth_array = onemonth_modal_data($auth_attendances);                 
+           
+            return view('home', [
+                'user' => $user,
+                'attendances' => $attendances,
+                'device' => $device,
+                'superiors' => $superiors,
+                'overtimes' => $overtime_attendances,
+                'edits' => $edit_attendances,
+                'onemonths' => $moth_auth_array
+            ]);
+ 
+        }
+        else{
+            return view('home', [
+                'user' => $user,
+                'attendances' => $attendances,
+                'device' => $device,
+                'superiors' => $superiors
+            ]);
+        }
+        
+        
     }
     /************************************ */
     /**

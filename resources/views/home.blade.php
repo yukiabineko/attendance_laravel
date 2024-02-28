@@ -19,7 +19,6 @@
       @include('share/flash')
       <section class="text-center h2 fw-bold mt-5">{{ $user->name }}さんページ</section>
 
-
       <!-- 勤怠表 -->
       @if ( $device == 'pc')
           @include('pc.users.show')

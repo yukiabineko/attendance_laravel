@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use App\Models\Attendance;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -173,3 +174,69 @@ if( !function_exists('overtime_working')){
 
     }
 }
+/****************************************************************************************************************** */
+/**
+ * 一ヶ月申請の有無のチェック
+ */
+if(!function_exists( 'month_authorization_check')){
+   function month_authorization_check(Collection $attendances, string $date = null) :string{
+      $flag = 0;
+      $superior_id = null;
+      $thisMonth = !empty($date)? date('Y-m', strtotime($date)) : date('Y-m');
+
+      foreach($attendances as $attendance){
+        if( $attendance->month_approval == 1 
+            && isset( $attendance->month_superior_id) 
+            && Auth::id() == (int)$attendance->user_id
+            && date('Y-m', strtotime($attendance->worked_on)) == $thisMonth )
+        {
+          $flag = 1;
+          $superior_id = $attendance-> month_superior_id;
+        }
+      }
+      //結果で表示変更
+      switch ($flag) {
+        case 1:
+          $superior = User::where('id', $superior_id)->first();
+          return $superior->name.'に一ヶ月申請中';
+          break;
+        
+        default:
+          return '所属長未申請';
+          break;
+      }
+   }
+}
+/******************************************************************************************************************** */
+  /**
+   * 一ヶ月申請のモーダルデータ
+   */
+  if( !function_exists('onemonth_modal_data')){
+    function onemonth_modal_data(Collection $datas){
+      $monthDatas = [];
+
+      //データから必要データ格納
+      foreach($datas as $data){
+        $record = [];
+        //新格納配列に同じ名前の人と同じ月があった場合は格納しない。
+        $flag = true;
+       
+        foreach($monthDatas as $month){
+          if( in_array($data->name, $month) && in_array(date('Y-m',strtotime($data->worked_on)), $month)){
+             $flag = false;
+          }
+        }
+        if($flag){
+          $record['name'] = $data->name;
+          $record['month'] = date('Y-m', strtotime($data->worked_on));
+          $record['status'] = $data->month_approval;
+          array_push($monthDatas, $record);
+        }
+        //endif
+      }
+      //endforeach
+     return $monthDatas;
+    }
+    //end function(this function)
+  }
+  //end if(function_exists)

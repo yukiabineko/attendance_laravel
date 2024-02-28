@@ -7,7 +7,7 @@
           <a 
           href="{{ route('users.show',['user' => $user, 
           'date' => get_prev( $attendances ) ])}}" 
-          class="btn btn-primary">←</a>
+          class="btn btn-primary" id="mobile-prev-month">←</a>
 
           <!-- 現在月情報 -->
           <div>{{ date('Y年m月d日', strtotime( $attendances[0]->worked_on ) )}}</div>
@@ -62,6 +62,11 @@
       href="{{ route('attendances.edit', ['user' => $user, 'date' => date('Y-m-d',strtotime( $attendances[0]->worked_on) ) ])}}" 
       class="btn btn-success btn-lg">勤怠編集</a>
   </div> 
+
+  <!----------------モバイルのみ一ヶ月申請アンカー--------------------------------------->
+  <div class="mont-auth-anchor d-grid gap-2 mt-3">
+    <a href="#mobile-month-auth-text" class="btn btn-primary pt-2 pb-2">一ヶ月申請へ</a>
+  </div>
  
  
     
@@ -247,8 +252,31 @@
         <td class="bg-light" colspan="3">合計労働時間</td>
         <td colspan="7" class="text-center">{{ total( $attendances )}}時間</td>
      </tr>
+     <!-- 一ヶ月申請 -->
+     <tr>
+       <td colspan="8" class="mobile-month-auth-td">
+         <a href="#" class="mobile-month-auth-text" id="mobile-month-auth-text">{{ month_authorization_check( $attendances )}}</a>
+         <form action="{{ route('MonthAuth.update')}}" method="post" class="mobile-month-auth-form">
+              @csrf
+              @method('patch')
+              <select name="superior_id" class="form-select">
+                  @foreach ($superiors as $superior)
+                    <option value="{{ $superior->id}}">{{ $superior->name }}</option>
+                  @endforeach
+              </select>
+              <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-primary">申請</button>
+              </div>
+              <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+              <input type="hidden" name="month"  value="{{ $attendances[0]->worked_on }}">
+          </form>
+       </td>
+     </tr>
   </tfoot>
 </table>
+
+<!-- トップに戻るボタン -->
+<a href="#mobile-prev-month" class="back-top">TOPへ</a>
 
 
 <!---------------------------------------------------------------------------------------------------------------------------------->
@@ -320,5 +348,37 @@
   }
    .home-contents-overtime button{
       width: 100%;
+   }
+   /**一ヶ月申請 **/
+   .mobile-month-auth-td{
+     width: 100%;
+
+   }
+   .mobile-month-auth-text{
+     display: flex;
+     font-weight: bold;
+     text-decoration: none;
+     width: 100%;
+   }
+   .mobile-month-auth-form{
+      display: block;
+      width: 95%;
+      margin: .5rem auto 1rem;
+
+   }
+   /** トップ戻るボタン　**/
+   .back-top{
+     align-items: center;
+     background-color: #6699FF;
+     border-radius: 50%;
+     color: white;
+     display: flex;
+     position: fixed;
+     justify-content: center;
+     text-decoration: none;
+     right: 0;
+     bottom: 0;
+     width: 80px;
+     height: 80px;
    }
 </style>

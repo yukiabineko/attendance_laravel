@@ -47,7 +47,13 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- 上長アカウントの場合の表示 -->
+        @if (isset(Auth::user()->superior))
+            @include('pc.superior.info')
+        @endif
       </div>
+      
     </div>
   </div>
 
@@ -188,7 +194,6 @@
                    @if ( $attendance-> edit_approval == 1 && isset( $attendance->edit_superior_id ))
                     <p class="text-primary">{{ $attendance->getSuperiorName('edit')}}に勤怠変更申請中</p>
                   @endif
-
                 </td>
                 
               </tr>
@@ -198,7 +203,25 @@
         <tfoot>
            <tr>
              <td class="bg-light" colspan="3">合計労働時間</td>
-             <td colspan="7" class="text-center">{{ total( $attendances )}}時間</td>
+             <td colspan="12" class="text-center">{{ total( $attendances )}}時間</td>
+             <!-- 一ヶ月申請  -->
+             <td colspan="3">
+               <p>{{ month_authorization_check( $attendances, isset($_GET['date'])? $_GET['date'] : null)}}</p>
+               <form action="{{ route('MonthAuth.update')}}" method="post">
+                  @csrf
+                  @method('patch')
+                  <select name="superior_id" class="form-select">
+                      @foreach ($superiors as $superior)
+                        <option value="{{ $superior->id}}">{{ $superior->name }}</option>
+                      @endforeach
+                  </select>
+                  <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">申請</button>
+                  </div>
+                  <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                  <input type="hidden" name="month"  value="{{ $attendances[0]->worked_on }}">
+               </form>
+             </td>
            </tr>
         </tfoot>
       </table>

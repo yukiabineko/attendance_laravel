@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\UserAttendanceTimeController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\general\AttendanceController;
 use App\Http\Controllers\general\FinishAttendanceController;
+use App\Http\Controllers\general\MonthAuthController;
 use App\Http\Controllers\general\OvertimeModalController;
 use App\Http\Controllers\general\StartAttendanceController;
 use App\Http\Controllers\general\UserController;
@@ -44,6 +45,8 @@ Route::group(['middleware' =>['auth']], function(){
     Route::get('/overtimeModal/{id}',[OvertimeModalController::class, 'show'])->name('overtimeModal.show');
     //ユーザー残業申請処理
     Route::patch('/overtimeModal/update', [OvertimeModalController::class, 'update'])->name('overtimeModal.update');
+    //ユーザー一ヶ月申請
+    Route::patch('/month_auth/update',[ MonthAuthController::class, 'update'])->name('MonthAuth.update');
 
     //ユーザープロフィール変更画面
     Route::resource('users', UserController::class)->only(['edit','update', 'show']);
@@ -61,4 +64,5 @@ Route::group(['middleware' =>['auth']], function(){
     Route::resource('/atwork',AtworkController::class)->only(['index']);
     //退勤者リスト
     Route::resource('/leaving',LeavingController::class)->only(['index']);
+  
 });

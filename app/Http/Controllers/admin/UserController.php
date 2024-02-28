@@ -145,7 +145,7 @@ class UserController extends Controller
              $user->start_time = $csvArray['start_time'];;
              $user->finish_time = $csvArray['finish_time'];;
              $user->admin = $csvArray['admin'];
-             $user->password = $csvArray['password'];
+             $user->password = Hash::make($csvArray['password'] );
              $user->affiliation = $csvArray['affiliation'];
              $user->employee_number = $csvArray['employee_number'];
              $user->base_time = $csvArray['base_time'];

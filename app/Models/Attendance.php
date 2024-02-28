@@ -20,7 +20,9 @@ class Attendance extends Model
         'overtime_superior_id',
         'note',
         'edit_approval',
-        'edit_superior_id'
+        'edit_superior_id',
+        'month_approval',
+        'month_superior_id'
     ];
     public function user(){
         return $this->belongsTo(User::class); 
@@ -113,7 +115,6 @@ class Attendance extends Model
       default:
         break;
      }
-    
      return $superior->name;
   }
 /***************************************************************************************** */
